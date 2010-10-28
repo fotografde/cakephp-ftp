@@ -9,6 +9,7 @@
 class ClientController extends FtpAppController {
 	public $uses = array('Ftp.Ftp');
 	public $components = array('Session');
+	public $helpers = array('Ftp.Ftp');
 	public $connected = false;
 	public $tmp_file = 'cakeftp_download_tmpfile';
 

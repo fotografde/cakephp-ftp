@@ -5,7 +5,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
-"POT-Creation-Date: 2010-10-26 15:38-0700\n"
+"POT-Creation-Date: 2010-10-28 11:24-0700\n"
 "PO-Revision-Date: YYYY-mm-DD HH:MM+ZZZZ\n"
 "Last-Translator: NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <EMAIL@ADDRESS>\n"
@@ -14,79 +14,99 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=INTEGER; plural=EXPRESSION;\n"
 
-#: ftp_app_controller.php:20
+#: /ftp_app_controller.php:19
 msgid "CakeFTP client/console are disabled by default for security. To enable put Configure::write('Cakeftp.enabled', true); in your config/bootstrap.php or app_controller.php."
 msgstr ""
 
-#: controllers/client_controller.php:90
+#: /controllers/client_controller.php:90
 msgid "I got that thing you sent me"
 msgstr ""
 
-#: controllers/client_controller.php:146
+#: /controllers/client_controller.php:146
 msgid "Goodbye and good riddance!"
 msgstr ""
 
-#: models/datasources/ftp_source.php:118;189;264;354;399
+#: /models/datasources/ftp_source.php:118;189;264;354;399
 msgid "Failed to connect"
 msgstr ""
 
-#: models/datasources/ftp_source.php:140;154
+#: /models/datasources/ftp_source.php:140;154
 msgid "Folder does not exist"
 msgstr ""
 
-#: models/datasources/ftp_source.php:200
+#: /models/datasources/ftp_source.php:200
 msgid "Could not change directory"
 msgstr ""
 
-#: models/datasources/ftp_source.php:210;232
+#: /models/datasources/ftp_source.php:210;232
 msgid "Failed to upload"
 msgstr ""
 
-#: models/datasources/ftp_source.php:220;241
+#: /models/datasources/ftp_source.php:220;241
 msgid "Failed to download"
 msgstr ""
 
-#: models/datasources/ftp_source.php:276
+#: /models/datasources/ftp_source.php:276
 msgid "Failed to delete"
 msgstr ""
 
-#: models/datasources/ftp_source.php:298
+#: /models/datasources/ftp_source.php:298
 msgid "That method is not supported."
 msgstr ""
 
-#: models/datasources/ftp_source.php:360;378
+#: /models/datasources/ftp_source.php:360;378
 msgid "Login failed"
 msgstr ""
 
-#: models/datasources/ftp_source.php:373
+#: /models/datasources/ftp_source.php:373
 msgid "Please upload the contents of the phpseclib (http://phpseclib.sourceforge.net/) to the app/vendors/phpseclib/ folder"
 msgstr ""
 
-#: models/datasources/ftp_source.php:395
+#: /models/datasources/ftp_source.php:395
 msgid "Invalid command"
 msgstr ""
 
-#: views/client/index.ctp:16
-msgid "Connect"
+#: /views/client/index.ctp:7
+msgid "Logout"
 msgstr ""
 
-#: views/client/index.ctp:42
-msgid "Upload"
-msgstr ""
-
-#: views/client/index.ctp:49
+#: /views/helpers/ftp.php:26
 msgid "Up Folder"
 msgstr ""
 
-#: views/client/index.ctp:91
+#: /views/helpers/ftp.php:36
+msgid "Last Modified"
+msgstr ""
+
+#: /views/helpers/ftp.php:37
+msgid "Size"
+msgstr ""
+
+#: /views/helpers/ftp.php:38
+msgid "Permissions"
+msgstr ""
+
+#: /views/helpers/ftp.php:59
 msgid "Download"
 msgstr ""
 
-#: views/client/index.ctp:96
+#: /views/helpers/ftp.php:64
 msgid "Delete"
 msgstr ""
 
-#: views/client/index.ctp:100
+#: /views/helpers/ftp.php:68
 msgid "Are you sure you wish to delete that file?"
+msgstr ""
+
+#: /views/helpers/ftp.php:116
+msgid "Upload File"
+msgstr ""
+
+#: /views/helpers/ftp.php:118
+msgid "Upload"
+msgstr ""
+
+#: /views/helpers/ftp.php:154
+msgid "Connect"
 msgstr ""
 

@@ -6,7 +6,6 @@
  * @author Kyle Robinson Young <kyle at kyletyoung.com>
  * @copyright 2010 Kyle Robinson Young
  */
-//Configure::write('Cakeftp.enabled', true);
 class FtpAppController extends AppController {
 
 /**
