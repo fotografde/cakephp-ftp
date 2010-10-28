@@ -31,7 +31,7 @@ class FtpSource extends DataSource {
 		'ls_cmd' => 'ls -l -A',
 		'connection' => null,
 		'systype' => 'unknown',
-		'cache' => false,
+		'cache' => true,
 	);
 
 /**
@@ -163,8 +163,11 @@ class FtpSource extends DataSource {
 				if (isset($Model->cache)) {
 					Cache::set($Model->cache);
 				}
-				Cache::write($hash, $out, $this->config['cache']);
+				Cache::write($hash, array('path' => $path, 'files' => $out), $this->config['cache']);
 			}
+		} else {
+			$path = $out['path'];
+			$out = $out['files'];
 		}
 		$Model->id = $path;
 
