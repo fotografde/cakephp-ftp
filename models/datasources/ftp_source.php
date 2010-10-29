@@ -31,7 +31,7 @@ class FtpSource extends DataSource {
 		'ls_cmd' => 'ls -l -A',
 		'connection' => null,
 		'systype' => 'unknown',
-		'cache' => true,
+		'cache' => false,
 	);
 
 /**
@@ -146,9 +146,9 @@ class FtpSource extends DataSource {
 					break;
 				case 'ssh':
 					$cmd = $this->config['ls_cmd'].' ';
-					/*if ($recursive) {
+					if ($recursive) {
 						$cmd .= '-R ';
-					}*/
+					}
 					$chdir = (strlen($path) > 1) ? $this->config['connection']->chdir($path) : true;
 					if (empty($chdir)) {
 						throw new Exception(__d('cakeftp', 'Folder does not exist', true));
@@ -445,6 +445,7 @@ class FtpSource extends DataSource {
 		$out = array();
 		$thisPath = '';
 		foreach ($ls as $line) {
+			$line = trim($line);
 			if (empty($line)) {
 				continue;
 			}
@@ -465,6 +466,9 @@ class FtpSource extends DataSource {
 				}
 			} else {
 				$regs = preg_split('@[\s]+@', $line);
+				if (sizeof($regs) > 8) {
+					$regs = array_splice($regs, 0, 7)+array(7 => implode(' ', $regs));
+				}
 				if (sizeof($regs) == 8) {
 					$raw = $line;
 					list($perm, $hrdlnks, $user, $group, $bytes, $date, $time, $filename) = $regs;
@@ -479,7 +483,7 @@ class FtpSource extends DataSource {
 					'is_link'	=> ($perm{0}=='l')?1:0,
 					'size'		=> $this->_byteconvert($bytes),
 					'chmod'		=> $this->_chmodnum($perm),
-					'mtime'		=> date('Y-m-d h:i:s', strtotime($date)),
+					'mtime'		=> date('Y-m-d H:i:s', strtotime($date)),
 					'raw'		=> $raw,
 				);
 			}

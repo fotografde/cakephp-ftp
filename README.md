@@ -41,6 +41,8 @@ If you found this release useful please let the author know! Follow on [Twitter]
 
 ### 0.1
 
+* Fixed issue with filenames and spaces
+* Fixed 24-hour date format issue
 * Fixed issue with caching path
 * Separated client view into a ftp helper
 * Added console support to ftp datasource
