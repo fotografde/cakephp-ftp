@@ -466,13 +466,13 @@ class FtpSource extends DataSource {
 				}
 			} else {
 				$regs = preg_split('@[\s]+@', $line);
-				if (sizeof($regs) > 8) {
-					$regs = array_splice($regs, 0, 7)+array(7 => implode(' ', $regs));
+				if (sizeof($regs) > 9) {
+					$regs = array_splice($regs, 0, 8)+array(8 => implode(' ', $regs));
 				}
-				if (sizeof($regs) == 8) {
+				if (sizeof($regs) == 9) {
 					$raw = $line;
-					list($perm, $hrdlnks, $user, $group, $bytes, $date, $time, $filename) = $regs;
-					$date = $date.' '.$time;
+					list($perm, $hrdlnks, $user, $group, $bytes, $month, $day, $time, $filename) = $regs;
+					$date = $month.' '.$day.' '.$time;
 				}
 			}
 			if (isset($raw)) {
