@@ -257,7 +257,7 @@ class FtpSource extends DataSource {
  * @return bool
  */
 	public function delete(&$Model, $file=null) {
-		if (empty($file)) {
+		if (empty($file) || is_array($file)) {
 			$file = $Model->id;
 			if (empty($file)) {
 				return false;
