@@ -6,5 +6,6 @@ class DATABASE_CONFIG {
 		'username' => 'testuser',
 		'password' => '1234',
 		'type' => 'ftp',
+		'port' => 21,
 	);
 }

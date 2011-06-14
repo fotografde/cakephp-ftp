@@ -1,7 +1,7 @@
 <?php
 /**
  * Client Controller
- * 
+ *
  * @package cakeftp
  * @author Kyle Robinson Young, kyletyoung.com
  * @copyright 2010 Kyle Robinson Young
@@ -50,7 +50,7 @@ class ClientController extends FtpAppController {
 /**
  * index
  * Browse remote files
- * 
+ *
  * @param string $path
  */
 	function index($path=null) {
@@ -88,7 +88,7 @@ class ClientController extends FtpAppController {
 					'remote' => $remote,
 				))) {
 					$this->Session->setFlash(__d('cakeftp', 'I got that thing you sent me', true));
-				}	
+				}
 			} catch (Exception $e) {
 				$this->Session->setFlash($e->getMessage());
 			}

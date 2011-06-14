@@ -1,7 +1,7 @@
 <?php
 /**
  * Ftp Helper
- * 
+ *
  * @package cakeftp
  * @author Kyle Robinson Young, kyletyoung.com
  * @copyright 2010 Kyle Robinson Young
@@ -12,7 +12,7 @@ class FtpHelper extends AppHelper {
 /**
  * listFiles
  * Prints list of files
- * 
+ *
  * @param array $data
  * @return string
  */
@@ -85,14 +85,14 @@ class FtpHelper extends AppHelper {
 			'width' => '100%',
 			'border' => 0,
 		));
-		
+
 		return $this->output($out);
 	}
 
 /**
  * uploadForm
  * Prints an upload form
- * 
+ *
  * @param array $data
  * @return string
  */
@@ -122,7 +122,7 @@ class FtpHelper extends AppHelper {
 /**
  * loginForm
  * Prints a login form
- * 
+ *
  * @param array $data
  * @return string
  */
@@ -151,6 +151,7 @@ class FtpHelper extends AppHelper {
 			'options' => array('ftp' => 'ftp', 'ssh' => 'ssh'),
 			'default' => $data['defaultType'],
 		));
+		$out .= $this->Form->input('port');
 		$out .= $this->Form->end(__d('cakeftp', 'Connect', true));
 		return $this->output($out);
 	}

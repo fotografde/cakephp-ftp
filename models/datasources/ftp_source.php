@@ -1,9 +1,9 @@
 <?php
 /**
  * FTP/SFTP Source
- * DataSource for listing/uploading/downloading/deleting 
+ * DataSource for listing/uploading/downloading/deleting
  * files remotely through FTP or SFTP.
- * 
+ *
  * @package cakeftp
  * @author Kyle Robinson Young <kyle at kyletyoung.com>
  * @copyright 2010 Kyle Robinson Young
@@ -16,7 +16,7 @@ class FtpSource extends DataSource {
  * @var string
  */
 	public $description = 'FTP/SFTP DataSource';
-	
+
 /**
  * config
  * @var array
@@ -26,6 +26,7 @@ class FtpSource extends DataSource {
 		'username' => '',
 		'password' => '',
 		'type' => 'ftp',
+		'port' => '',
 		'passive' => true,
 		'timeout' => 5,
 		'ls_cmd' => 'ls -l -A',
@@ -74,11 +75,11 @@ class FtpSource extends DataSource {
 		$this->init($config);
 		parent::__construct($config);
 	}
-	
+
 /**
  * init
  * Merges config
- * 
+ *
  * @param array $config
  * @return boolean
  */
@@ -105,7 +106,7 @@ class FtpSource extends DataSource {
 /**
  * read
  * Find files on remote server
- * 
+ *
  * @param object $model
  * @param array $data
  * @return array
@@ -181,7 +182,7 @@ class FtpSource extends DataSource {
 /**
  * create
  * Upload/Download
- * 
+ *
  * @param object $model
  * @param array $fields
  * @param array $values
@@ -212,7 +213,7 @@ class FtpSource extends DataSource {
 					}
 					throw new Exception(__d('cakeftp', 'Failed to upload', true));
 					return false;
-				
+
 				case 'down':
 				case 'download':
 					touch($data['local']);
@@ -234,7 +235,7 @@ class FtpSource extends DataSource {
 					}
 					throw new Exception(__d('cakeftp', 'Failed to upload', true));
 					return false;
-				
+
 				case 'down':
 				case 'download':
 					$res = $this->config['connection']->get(basename($data['remote']), $data['local']);
@@ -251,7 +252,7 @@ class FtpSource extends DataSource {
 /**
  * delete
  * Deletes a remote file
- * 
+ *
  * @param obj $Model
  * @param str $file
  * @return bool
@@ -283,7 +284,7 @@ class FtpSource extends DataSource {
 /**
  * query
  * Provides an interface to datasource methods.
- * 
+ *
  * @param str $query
  * @param array $data
  * @return mixed
@@ -352,7 +353,8 @@ class FtpSource extends DataSource {
 		switch ($this->config['type']) {
 			case 'ftp':
 				$host_ip = gethostbyname($this->config['host']);
-				$this->config['connection'] = ftp_connect($host_ip);
+				$port = !empty($this->config['port']) ? $this->config['port'] : 21;
+				$this->config['connection'] = ftp_connect($host_ip, $port);
 				if (!$this->config['connection']) {
 					throw new Exception(__d('cakeftp', 'Failed to connect', true));
 					return false;
@@ -376,7 +378,8 @@ class FtpSource extends DataSource {
 					throw new Exception(__d('cakeftp', 'Please upload the contents of the phpseclib (http://phpseclib.sourceforge.net/) to the app/vendors/phpseclib/ folder', true));
 					exit;
 				}
-				$this->config['connection'] = new Net_SFTP($this->config['host']);
+				$port = !empty($this->config['port']) ? $this->config['port'] : 22;
+				$this->config['connection'] = new Net_SFTP($this->config['host'], $port);
 				if (!$this->config['connection']->login($this->config['username'], $this->config['password'])) {
 					throw new Exception(__d('cakeftp', 'Login failed', true));
 					unset($this->config['connection']);
@@ -429,7 +432,7 @@ class FtpSource extends DataSource {
 	/**
 	 * _parsels
 	 * Parses results from ls command into array
-	 * 
+	 *
 	 * @access protected
 	 * @param mixed $ls
 	 * @param string $path
