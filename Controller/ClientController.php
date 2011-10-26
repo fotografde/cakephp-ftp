@@ -3,8 +3,8 @@
  * Client Controller
  *
  * @package cakeftp
- * @author Kyle Robinson Young, kyletyoung.com
- * @copyright 2010 Kyle Robinson Young
+ * @author Kyle Robinson Young <kyle at dontkry.com>
+ * @copyright 2011 Kyle Robinson Young
  */
 class ClientController extends FtpAppController {
 	public $uses = array('Ftp.Ftp');

@@ -5,8 +5,8 @@
  * files remotely through FTP or SFTP.
  *
  * @package cakeftp
- * @author Kyle Robinson Young <kyle at kyletyoung.com>
- * @copyright 2010 Kyle Robinson Young
+ * @author Kyle Robinson Young <kyle at dontkry.com>
+ * @copyright 2011 Kyle Robinson Young
  */
 //define('NET_SSH2_LOGGING', 2); define('NET_SFTP_LOGGING', 2);
 class FtpSource extends DataSource {

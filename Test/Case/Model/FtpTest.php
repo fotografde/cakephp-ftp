@@ -3,13 +3,11 @@
  * Ftp Test
  * 
  * @package cakeftp
- * @author Kyle Robinson Young <kyle at kyletyoung.com>
- * 
- * TODO:
- * 	Figure out how to write test cases for this thing.
- * 
+ * @author Kyle Robinson Young <kyle at dontkry.com>
  */
-App::import('Model', array('ConnectionManager', 'Ftp.Ftp', 'Ftp.FtpSource'));
+App::uses('ConnectionManager', 'Model');
+App::uses('Ftp', 'Ftp.Model');
+App::uses('FtpSource', 'Ftp.Model/Datasource');
 class FtpTest extends CakeTestCase {
 
 /**
@@ -40,7 +38,7 @@ class FtpTest extends CakeTestCase {
  */
 	function setUp() {
 		if (!class_exists('MockFtpSource')) {
-			Mock::generatePartial('TestFtpSource', 'MockFtpSource', array('connect'));
+			//Mock::generatePartial('TestFtpSource', 'MockFtpSource', array('connect'));
 		}
 	}
 

@@ -3,10 +3,10 @@
  * Ftp Model
  * 
  * @package cakeftp
- * @author Kyle Robinson Young <kyle at kyletyoung.com>
- * @copyright 2010 Kyle Robinson Young
+ * @author Kyle Robinson Young <kyle at dontkry.com>
+ * @copyright 2011 Kyle Robinson Young
  */
-App::import('Core', 'ConnectionManager');
+App::uses('ConnectionManager', 'Model');
 class Ftp extends AppModel {
 
 /**
@@ -41,7 +41,7 @@ class Ftp extends AppModel {
 	public function __construct($id=null, $table=null, $ds=null) {
 		if ($this->useDbConfig == 'cakeftp') {
 			ConnectionManager::create($this->useDbConfig, array(
-				'datasource' => 'ftp.ftp',
+				'datasource' => 'Ftp.Ftp',
 			));
 		}
 		parent::__construct($id, $table, $ds);

@@ -1,7 +1,7 @@
 <?php
 class DATABASE_CONFIG {
 	var $cakeftp = array(
-		'datasource' => 'ftp.ftp',
+		'datasource' => 'Ftp.Ftp',
 		'host' => 'example.com',
 		'username' => 'testuser',
 		'password' => '1234',
