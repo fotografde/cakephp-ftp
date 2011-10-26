@@ -87,7 +87,7 @@ class ClientController extends FtpAppController {
 					'local' => $this->data['File']['file']['tmp_name'],
 					'remote' => $remote,
 				))) {
-					$this->Session->setFlash(__d('cakeftp', 'I got that thing you sent me', true));
+					$this->Session->setFlash(__d('cakeftp', 'I got that thing you sent me'));
 				}
 			} catch (Exception $e) {
 				$this->Session->setFlash($e->getMessage());
@@ -143,7 +143,7 @@ class ClientController extends FtpAppController {
 		if ($this->connected) {
 			try {
 				if ($this->Ftp->delete($path)) {
-					$this->Session->setFlash(__d('cakeftp', 'Goodbye and good riddance!', true));
+					$this->Session->setFlash(__d('cakeftp', 'Goodbye and good riddance!'));
 				}
 			} catch (Exception $e) {
 				$this->Session->setFlash($e->getMessage());

@@ -23,7 +23,7 @@ class FtpHelper extends AppHelper {
 		), (array) $data);
 		$out = '';
 		if (!empty($data['parent'])) {
-			$parent = $this->Html->link(__d('cakeftp', 'Up Folder', true), array(
+			$parent = $this->Html->link(__d('cakeftp', 'Up Folder'), array(
 				'plugin' => 'ftp',
 				'controller' => 'client',
 				'action' => 'index', $data['parent'],
@@ -33,9 +33,9 @@ class FtpHelper extends AppHelper {
 		}
 		$out .= $this->Html->tableHeaders(array(
 			$parent,
-			__d('cakeftp', 'Last Modified', true),
-			__d('cakeftp', 'Size', true),
-			__d('cakeftp', 'Permissions', true),
+			__d('cakeftp', 'Last Modified'),
+			__d('cakeftp', 'Size'),
+			__d('cakeftp', 'Permissions'),
 			'&nbsp;',
 		));
 		$cells = array();
@@ -56,16 +56,16 @@ class FtpHelper extends AppHelper {
 					));
 				}
 				if ($is_dir != '1' && $is_link != '1') {
-					$actions = $this->Html->link(__d('cakeftp', 'Download', true), array(
+					$actions = $this->Html->link(__d('cakeftp', 'Download'), array(
 						'plugin' => 'ftp',
 						'controller' => 'client',
 						'action' => 'download', $safe,
 					));
-					$actions .= $this->Html->link(__d('cakeftp', 'Delete', true), array(
+					$actions .= $this->Html->link(__d('cakeftp', 'Delete'), array(
 						'plugin' => 'ftp',
 						'controller' => 'client',
 						'action' => 'delete', $safe,
-					), array(), __d('cakeftp', 'Are you sure you wish to delete that file?', true));
+					), array(), __d('cakeftp', 'Are you sure you wish to delete that file?'));
 				} else {
 					$actions = '';
 				}
@@ -113,9 +113,9 @@ class FtpHelper extends AppHelper {
 		$out .= $this->Form->hidden('path', array('value' => $data['path']));
 		$out .= $this->Form->input('file', array(
 			'type' => 'file',
-			'label' => __d('cakeftp', 'Upload File', true),
+			'label' => __d('cakeftp', 'Upload File'),
 		));
-		$out .= $this->Form->end(__d('cakeftp', 'Upload', true));
+		$out .= $this->Form->end(__d('cakeftp', 'Upload'));
 		return $this->output($out);
 	}
 
@@ -152,7 +152,7 @@ class FtpHelper extends AppHelper {
 			'default' => $data['defaultType'],
 		));
 		$out .= $this->Form->input('port');
-		$out .= $this->Form->end(__d('cakeftp', 'Connect', true));
+		$out .= $this->Form->end(__d('cakeftp', 'Connect'));
 		return $this->output($out);
 	}
 }

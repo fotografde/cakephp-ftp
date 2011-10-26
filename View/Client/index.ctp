@@ -4,7 +4,7 @@
 	
 <?php else: ?>
 	
-	<p style="text-align:right;"><?php echo $this->Html->link(__d('cakeftp', 'Logout', true), array(
+	<p style="text-align:right;"><?php echo $this->Html->link(__d('cakeftp', 'Logout'), array(
 		'plugin' => 'ftp',
 		'controller' => 'client',
 		'action' => 'logout',
