@@ -1,5 +1,7 @@
 # CakeFTP: A FTP/SFTP Plugin for CakePHP
 
+Requires: CakePHP 2.0+, PHP 5.2+
+
 ## Features
 
 * Can list/upload/download/delete remote files with FTP or SFTP (uses phpseclib)
@@ -11,7 +13,7 @@ For info on how to install and use this plugin please refer to the [wiki](http:/
 
 ## Issues
 
-Please report any issues you have with the plugin to the [issue tracker](http://github.com/shama/cakeftp/issues) on github. **This is a beta release so please be gentle!**
+Please report any issues you have with the plugin to the [issue tracker](http://github.com/shama/cakeftp/issues) on github.
 
 ## License
 
@@ -19,7 +21,7 @@ CakeFTP is offered under an [MIT license](http://www.opensource.org/licenses/mit
 
 ## Copyright
 
-2010 Kyle Robinson Young, [kyletyoung.com](http://kyletyoung.com)
+2011 Kyle Robinson Young, [dontkry.com](http://dontkry.com)
 
 If you found this release useful please let the author know! Follow on [Twitter](http://twitter.com/kyletyoung)
 
@@ -38,6 +40,10 @@ If you found this release useful please let the author know! Follow on [Twitter]
 * Filtering on find
 
 ## Changelog
+
+### 0.2
+
+* Upgraded for CakePHP 2.0
 
 ### 0.1
 
