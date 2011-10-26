@@ -137,12 +137,12 @@ class FtpSource extends DataSource {
 		if (($out = Cache::read($hash, $this->config['cache'])) === false) {
 			switch ($this->config['type']) {
 				case 'ftp':
-					if (!ftp_chdir($this->config['connection'], $path)) {
+					if (!$this->_ftp('ftp_chdir', array($this->config['connection'], $path))) {
 						throw new Exception(__d('cakeftp', 'Folder does not exist'));
 						return false;
 					}
-					$path = ftp_pwd($this->config['connection']);
-					$raw = ftp_rawlist($this->config['connection'], "-A .", $recursive);
+					$path = $this->_ftp('ftp_pwd', array($this->config['connection']));
+					$raw = $this->_ftp('ftp_rawlist', array($this->config['connection'], "-A .", $recursive));
 					$out = $this->_parsels($raw, $path);
 					break;
 				case 'ssh':
@@ -200,14 +200,14 @@ class FtpSource extends DataSource {
 		$data['direction'] = (!empty($data['direction'])) ? strtolower($data['direction']) : 'up';
 		$Model->id = dirname($data['remote']);
 		if ($this->config['type'] == "ftp") {
-			if (!ftp_chdir($this->config['connection'], $Model->id)) {
+			if (!$this->_ftp('ftp_chdir', array($this->config['connection'], $Model->id))) {
 				throw new Exception(__d('cakeftp', 'Could not change directory'));
 				return false;
 			}
 			switch ($data['direction']) {
 				case 'up':
 				case 'upload':
-					$res = ftp_put($this->config['connection'], $data['remote'], $data['local'], FTP_BINARY);
+					$res = $this->_ftp('ftp_put', array($this->config['connection'], $data['remote'], $data['local'], FTP_BINARY));
 					if ($res) {
 						return true;
 					}
@@ -217,7 +217,7 @@ class FtpSource extends DataSource {
 				case 'down':
 				case 'download':
 					touch($data['local']);
-					if (ftp_get($this->config['connection'], $data['local'], $data['remote'], FTP_BINARY)) {
+					if ($this->_ftp('ftp_get', array($this->config['connection'], $data['local'], $data['remote'], FTP_BINARY))) {
 						return true;
 					}
 					unlink($data['local']);
@@ -269,7 +269,7 @@ class FtpSource extends DataSource {
 			return false;
 		}
 		if ($this->config['type'] == "ftp") {
-			if (ftp_delete($this->config['connection'], $file)) {
+			if ($this->_ftp('ftp_delete', array($this->config['connection'], $file))) {
 				return true;
 			}
 		} elseif ($this->config['type'] == "ssh") {
@@ -354,28 +354,28 @@ class FtpSource extends DataSource {
 			case 'ftp':
 				$host_ip = gethostbyname($this->config['host']);
 				$port = !empty($this->config['port']) ? $this->config['port'] : 21;
-				$this->config['connection'] = ftp_connect($host_ip, $port);
+				$this->config['connection'] = $this->_ftp('ftp_connect', array($host_ip, $port));
 				if (!$this->config['connection']) {
 					throw new Exception(__d('cakeftp', 'Failed to connect'));
 					return false;
 				}
-				ftp_set_option($this->config['connection'], FTP_TIMEOUT_SEC, $this->config['timeout']);
-				$login = ftp_login($this->config['connection'], $this->config['username'], $this->config['password']);
+				$this->_ftp('ftp_set_option', array($this->config['connection'], FTP_TIMEOUT_SEC, $this->config['timeout']));
+				$login = $this->_ftp('ftp_login', array($this->config['connection'], $this->config['username'], $this->config['password']));
 				if (!$login) {
 					throw new Exception(__d('cakeftp', 'Login failed'));
 					unset($this->config['connection']);
 					return false;
 				}
-				ftp_pasv($this->config['connection'], $this->config['passive']);
-				$this->config['systype'] = ftp_systype($this->config['connection']);
+				$this->_ftp('ftp_pasv', array($this->config['connection'], $this->config['passive']));
+				$this->_ftp('ftp_systype', array($this->config['connection']));
 				return true;
 
 			case 'ssh':
 				if (strpos(get_include_path(), 'phpseclib') === false) {
-					set_include_path(APP.'vendors'.DS.'phpseclib'.DS);
+					set_include_path(App::pluginPath('Ftp').DS.'Vendor'.DS.'phpseclib'.DS);
 				}
-				if (!App::import('Vendor', 'Net_SFTP', array('file' => 'phpseclib' . DS . 'Net' . DS . 'SFTP.php'))) {
-					throw new Exception(__d('cakeftp', 'Please upload the contents of the phpseclib (http://phpseclib.sourceforge.net/) to the app/vendors/phpseclib/ folder'));
+				if (!App::import('Vendor', 'Ftp.Net_SFTP', array('file' => 'phpseclib' . DS . 'Net' . DS . 'SFTP.php'))) {
+					throw new Exception(__d('cakeftp', 'Please upload the contents of the phpseclib (http://phpseclib.sourceforge.net/) to the app/Plugin/Ftp/Vendor/phpseclib/ folder'));
 					exit;
 				}
 				$port = !empty($this->config['port']) ? $this->config['port'] : 22;
@@ -407,7 +407,7 @@ class FtpSource extends DataSource {
 		}
 		switch ($this->config['type']) {
 			case 'ftp':
-				return ftp_exec($this->config['connection'], $cmd);
+				return $this->_ftp('ftp_exec', array($this->config['connection'], $cmd));
 			case 'ssh':
 				return $this->config['connection']->exec($cmd);
 		}
@@ -422,7 +422,7 @@ class FtpSource extends DataSource {
 	public function quit() {
 		if ($this->config['connection']) {
 			if ($this->config['type'] == "ftp") {
-				ftp_close($this->config['connection']);
+				$this->_ftp('ftp_close', array($this->config['connection']));
 			}
 			$this->config['connection'] = null;
 		}
@@ -522,5 +522,15 @@ class FtpSource extends DataSource {
 		$chmod = substr(strtr($chmod, $trans), 1);
 		$array = str_split($chmod, 3);
 		return array_sum(str_split(@$array[0])) . array_sum(str_split(@$array[1])) . array_sum(str_split(@$array[2]));
+	}
+	
+/**
+ * _ftp
+ * Wrapper for FTP methods for testing
+ * @param string $method
+ * @param array $params 
+ */
+	protected function _ftp($method = null, $params = array()) {
+		return call_user_func_array($method, $params);
 	}
 }
