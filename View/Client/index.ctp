@@ -4,7 +4,7 @@
 	
 <?php else: ?>
 	
-	<p style="text-align:right;"><?php echo $this->Html->link(__d('cakeftp', 'Logout'), array(
+	<p style="text-align:right;"><?php echo $this->Html->link(__d('cakeftp', 'Logout', true), array(
 		'plugin' => 'ftp',
 		'controller' => 'client',
 		'action' => 'logout',
@@ -16,7 +16,7 @@
 	echo $this->Ftp->uploadForm(array('path' => $path));
 	echo $this->Ftp->listFiles(array(
 		'files' => $files,
-		'parent' => $parent,
+		'parent' => isset($parent) ? $parent : '',
 	));
 	?>
 	

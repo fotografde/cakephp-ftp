@@ -13,8 +13,8 @@ class FtpAppController extends AppController {
  * Must manually enable to use.
  * 
  */
-	public function __construct() {
-		parent::__construct();
+	public function __construct($request = null, $response = null) {
+		parent::__construct($request, $response);
 		if (Configure::read('Cakeftp.enabled') !== true) {
 			user_error(__d('cakeftp', 'CakeFTP client/console are disabled by default for security. To enable put Configure::write(\'Cakeftp.enabled\'); in your config/bootstrap.php or app_controller.php.', true));
 			exit;

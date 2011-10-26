@@ -41,7 +41,7 @@ class Ftp extends AppModel {
 	public function __construct($id=null, $table=null, $ds=null) {
 		if ($this->useDbConfig == 'cakeftp') {
 			ConnectionManager::create($this->useDbConfig, array(
-				'datasource' => 'Ftp.Ftp',
+				'datasource' => 'Ftp.FtpSource',
 			));
 		}
 		parent::__construct($id, $table, $ds);

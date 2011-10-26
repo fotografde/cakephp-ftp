@@ -20,11 +20,11 @@ class ClientController extends FtpAppController {
 	function beforeFilter() {
 		parent::beforeFilter();
 		if (file_exists(TMP.$this->tmp_file)) {
-			@unlink(TMP.$this->tmp_file);
+			unlink(TMP.$this->tmp_file);
 		}
-		if (isset($this->data['Ftp'])) {
-			$info = $this->data['Ftp'];
-			$path = $this->data['Ftp']['path'];
+		if (isset($this->request->data['Ftp'])) {
+			$info = $this->request->data['Ftp'];
+			$path = $this->request->data['Ftp']['path'];
 		} elseif ($this->Session->check('ftp')) {
 			$info = $this->Session->read('ftp');
 		}
@@ -61,13 +61,11 @@ class ClientController extends FtpAppController {
 		if ($this->connected) {
 			try {
 				$files = $this->Ftp->find('all', array(
-					'conditions' => array(
-						'path' => $path,
-					),
+					'conditions' => array('path' => $path),
 				));
 				$path = $this->Ftp->id;
 			} catch (Exception $e) {
-				debug($e->getMessage());
+				//debug($e->getMessage());
 			}
 		}
 		if (dirname($path) != $path) {
@@ -80,11 +78,11 @@ class ClientController extends FtpAppController {
  * upload
  */
 	function upload() {
-		if (!empty($this->data['File']) && $this->connected) {
+		if (!empty($this->request->data['File']) && $this->connected) {
 			try {
-				$remote = $this->data['File']['path'].DS.$this->data['File']['file']['name'];
+				$remote = $this->request->data['File']['path'].DS.$this->request->data['File']['file']['name'];
 				if ($this->Ftp->save(array(
-					'local' => $this->data['File']['file']['tmp_name'],
+					'local' => $this->request->data['File']['file']['tmp_name'],
 					'remote' => $remote,
 				))) {
 					$this->Session->setFlash(__d('cakeftp', 'I got that thing you sent me'));
@@ -93,7 +91,7 @@ class ClientController extends FtpAppController {
 				$this->Session->setFlash($e->getMessage());
 			}
 		}
-		$path = (isset($this->data['File']['path'])) ? $this->data['File']['path'] : '';
+		$path = (isset($this->request->data['File']['path'])) ? $this->request->data['File']['path'] : '';
 		$this->redirect(array(
 			'plugin' => 'ftp',
 			'controller' => 'client',
