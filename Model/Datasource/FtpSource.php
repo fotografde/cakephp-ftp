@@ -134,7 +134,7 @@ class FtpSource extends DataSource {
 		}
 		$recursive = (!empty($data['recursive']) && $data['recursive']) ? true : false;
 		$hash = hash('md4', $path);
-		if (($out = Cache::read($hash, $this->config['cache'])) === false) {
+		if (($out = Cache::read($hash, $this->config['cache'])) === false || $this->config['cache'] === false) {
 			switch ($this->config['type']) {
 				case 'ftp':
 					if (!$this->_ftp('ftp_chdir', array($this->config['connection'], $path))) {
@@ -216,11 +216,11 @@ class FtpSource extends DataSource {
 
 				case 'down':
 				case 'download':
-					touch($data['local']);
+					$this->_ftp('touch', array($data['local']));
 					if ($this->_ftp('ftp_get', array($this->config['connection'], $data['local'], $data['remote'], FTP_BINARY))) {
 						return true;
 					}
-					unlink($data['local']);
+					$this->_ftp('unlink', array($data['local']));
 					throw new Exception(__d('cakeftp', 'Failed to download'));
 					return false;
 			}
