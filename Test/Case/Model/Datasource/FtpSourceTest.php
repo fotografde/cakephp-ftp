@@ -153,7 +153,7 @@ END
 			$this->assertEqual($result[0]['Ftp']['is_dir'], '1');
 			
 			$this->assertEqual($result[1]['Ftp']['is_link'], '0');
-			$this->assertEqual($result[1]['Ftp']['size'], '4.00 KB');
+			$this->assertEqual($result[1]['Ftp']['size'], '4096');
 			$this->assertEqual($result[1]['Ftp']['chmod'], '750');
 			
 			$this->assertEqual($result[2]['Ftp']['is_link'], '1');
@@ -258,7 +258,7 @@ END
 		$this->assertEqual($result[0]['filename'], 'public_ftp');
 		$this->assertEqual($result[0]['is_dir'], '1');
 		$this->assertEqual($result[0]['is_link'], '0');
-		$this->assertEqual($result[0]['size'], '4.00 KB');
+		$this->assertEqual($result[0]['size'], '4096');
 		$this->assertEqual($result[0]['chmod'], '750');
 		$this->assertEqual($result[0]['mtime'], '2011-07-12 12:16:00');
 		$this->assertEqual($result[0]['raw'], 'drwxr-x---   3 kyle  group      4096 Jul 12 12:16 public_ftp');

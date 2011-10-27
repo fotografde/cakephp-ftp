@@ -497,7 +497,7 @@ class FtpSource extends DataSource {
 					'filename'	=> $filename,
 					'is_dir'	=> ($perm{0}=='d')?1:0,
 					'is_link'	=> ($perm{0}=='l')?1:0,
-					'size'		=> $this->_byteconvert($bytes),
+					'size'		=> $bytes,
 					'chmod'		=> $this->_chmodnum($perm),
 					'mtime'		=> date('Y-m-d H:i:s', strtotime($date)),
 					'raw'		=> $raw,
@@ -505,22 +505,6 @@ class FtpSource extends DataSource {
 			}
 		}
 		return $out;
-	}
-
-	/**
-	 * _byteconvert
-	 * @access protected
-	 * @author tmp at gmx dot de
-	 * @param string $bytes
-	 * @return string
-	 */
-	protected function _byteconvert($bytes) {
-		if ($bytes == 0) {
-			return 0;
-		}
-		$symbol = array('B', 'KB', 'MB', 'GB', 'TB', 'PB', 'EB', 'ZB', 'YB');
-		$exp = floor( log($bytes) / log(1024) );
-		return sprintf( '%.2f ' . $symbol[ $exp ], ($bytes / pow(1024, floor($exp))) );
 	}
 
 	/**
