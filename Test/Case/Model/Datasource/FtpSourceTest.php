@@ -21,6 +21,17 @@ class FtpTestModel extends Model {
 		parent::__construct($id, $table, $ds);
 	}
 }
+class FtpTestSource extends FtpSource {
+/**
+ * parsels
+ * @param array $ls
+ * @param string $path
+ * @return array
+ */
+	public function parsels($ls=null, $path='') {
+		return $this->_parsels($ls, $path);
+	}
+}
 class FtpSourceTest extends CakeTestCase {
 	
 /**
@@ -153,6 +164,8 @@ END
 		}
 		
 		// TODO: ADD SFTP
+		
+		unset($Model);
 	}
 
 /**
@@ -194,6 +207,8 @@ END
 		}
 		
 		// TODO: ADD SFTP
+		
+		unset($Model);
 	}
 
 /**
@@ -220,6 +235,38 @@ END
 		$this->assertTrue($this->FtpSource->delete($Model, '/path/to/remote/folder/file.zip'));
 		
 		// TODO: ADD SFTP
+		
+		unset($Model);
+	}
+	
+/**
+ * testParseLs
+ */
+	public function testParseLs() {
+		$this->FtpSource = new FtpTestSource($this->defaultConfig);
+		$in = array(
+			"drwxr-x---   3 kyle  group      4096 Jul 12 12:16 public_ftp",
+			"lrwxrwxrwx   1 kyle  group        11 Jul 12 12:16 www -> public_html",
+			"-rwxr-x---  15 kyle  group      4096 Nov  3 21:31 test yes here.jpg",
+		);
+		$result = $this->FtpSource->parsels($in, '/some/test/path/');
+		
+		// RETURNED PROPER # OF FILES?
+		$this->assertEqual(sizeof($result), 3);
+		
+		$this->assertEqual($result[0]['path'], '/some/test/path/');
+		$this->assertEqual($result[0]['filename'], 'public_ftp');
+		$this->assertEqual($result[0]['is_dir'], '1');
+		$this->assertEqual($result[0]['is_link'], '0');
+		$this->assertEqual($result[0]['size'], '4.00 KB');
+		$this->assertEqual($result[0]['chmod'], '750');
+		$this->assertEqual($result[0]['mtime'], '2011-07-12 12:16:00');
+		$this->assertEqual($result[0]['raw'], 'drwxr-x---   3 kyle  group      4096 Jul 12 12:16 public_ftp');
+		
+		// FILENAME WITH SPACES IN IT?
+		$this->assertEqual($result[2]['filename'], 'test yes here.jpg');
+		
+		// TODO: TRY TO REALLY BREAK THIS
 	}
 
 /**
