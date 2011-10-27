@@ -29,7 +29,7 @@ class FtpSource extends DataSource {
 		'port' => '',
 		'passive' => true,
 		'timeout' => 5,
-		'ls_cmd' => 'ls -l -A',
+		'ls_cmd' => 'ls -l -A --time-style=long-iso',
 		'connection' => null,
 		'systype' => 'unknown',
 		'cache' => false,
