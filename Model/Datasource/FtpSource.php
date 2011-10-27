@@ -143,7 +143,11 @@ class FtpSource extends DataSource {
 					}
 					$path = $this->_ftp('ftp_pwd', array($this->config['connection']));
 					$raw = $this->_ftp('ftp_rawlist', array($this->config['connection'], "-A .", $recursive));
-					$out = $this->_parsels($raw, $path);
+					if (method_exists($Model, 'parseFtpResults')) {
+						$out = $Model->parseFtpResults($raw, $path, $this->config);
+					} else {
+						$out = $this->_parsels($raw, $path);
+					}
 					break;
 				case 'ssh':
 					$cmd = $this->config['ls_cmd'].' ';
@@ -157,7 +161,11 @@ class FtpSource extends DataSource {
 					}
 					$path = $this->config['connection']->pwd();
 					$raw = $this->config['connection']->exec($cmd.$path);
-					$out = $this->_parsels($raw, $path);
+					if (method_exists($Model, 'parseFtpResults')) {
+						$out = $Model->parseFtpResults($raw, $path, $this->config);
+					} else {
+						$out = $this->_parsels($raw, $path);
+					}
 					break;
 			}
 			if ($this->config['cache'] !== false) {
@@ -173,8 +181,10 @@ class FtpSource extends DataSource {
 		$Model->id = $path;
 
 		$return = array();
-		foreach ($out as $key => $val) {
-			$return[] = array($Model->alias => $val);
+		if (is_array($out)) {
+			foreach ($out as $key => $val) {
+				$return[] = array($Model->alias => $val);
+			}
 		}
 		return $return;
 	}
@@ -432,6 +442,9 @@ class FtpSource extends DataSource {
 	/**
 	 * _parsels
 	 * Parses results from ls command into array
+	 * 
+	 * You can override this in your Model by adding the method 
+	 * parseFtpResults($raw = array(), $path = null, $config = array()) : array()
 	 *
 	 * @access protected
 	 * @param mixed $ls

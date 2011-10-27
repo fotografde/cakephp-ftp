@@ -32,7 +32,7 @@ If you found this release useful please let the author know! Follow on [Twitter]
 
 ## Roadmap and Known Issues
 
-* Write tests
+* Write more tests
 * Test with Windows (likely doesn't work)
 * Ability to enable logging to debug remote server issues
 * Build console controller (SSH remote console)
@@ -43,6 +43,7 @@ If you found this release useful please let the author know! Follow on [Twitter]
 
 ### 0.2
 
+* Added ability to override FtpSource::_parsels()
 * Upgraded for CakePHP 2.0
 
 ### 0.1
