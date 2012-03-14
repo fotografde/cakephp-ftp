@@ -23,7 +23,7 @@ CakeFTP is offered under an [MIT license](http://www.opensource.org/licenses/mit
 
 2011 Kyle Robinson Young, [dontkry.com](http://dontkry.com)
 
-If you found this release useful please let the author know! Follow on [Twitter](http://twitter.com/kyletyoung)
+If you found this release useful please let the author know! Follow on [Twitter](http://twitter.com/shamakry)
 
 ## Thanks
 
