@@ -16,11 +16,11 @@ class FtpHelper extends AppHelper {
  * @param array $data
  * @return string
  */
-	public function listFiles($data=null) {
+	public function listFiles($data = null) {
 		$data = array_merge(array(
 			'files' => array(),
 			'parent' => '',
-		), (array) $data);
+		), (array)$data);
 		$out = '';
 		if (!empty($data['parent'])) {
 			$parent = $this->Html->link(__d('cakeftp', 'Up Folder'), array(
@@ -41,7 +41,7 @@ class FtpHelper extends AppHelper {
 			foreach ($data['files'] as $file) {
 				extract($file['Ftp']);
 				if ($is_link == '1') {
-					$safe = substr($filename, strpos($filename, '-> ')+3);
+					$safe = substr($filename, strpos($filename, '-> ') + 3);
 				} else {
 					$safe = $path.$filename;
 				}

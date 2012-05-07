@@ -1,4 +1,6 @@
 <?php
+App::uses('ConnectionManager', 'Model');
+
 /**
  * Ftp Model
  * 
@@ -6,7 +8,6 @@
  * @author Kyle Robinson Young <kyle at dontkry.com>
  * @copyright 2011 Kyle Robinson Young
  */
-App::uses('ConnectionManager', 'Model');
 class Ftp extends AppModel {
 
 /**
@@ -38,7 +39,7 @@ class Ftp extends AppModel {
  * @param string $table
  * @param string $ds
  */
-	public function __construct($id=null, $table=null, $ds=null) {
+	public function __construct($id = null, $table = null, $ds = null) {
 		if ($this->useDbConfig == 'cakeftp') {
 			ConnectionManager::create($this->useDbConfig, array(
 				'datasource' => 'Ftp.FtpSource',

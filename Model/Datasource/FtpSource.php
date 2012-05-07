@@ -83,7 +83,7 @@ class FtpSource extends DataSource {
  * @param array $config
  * @return boolean
  */
-	public function init($config=array()) {
+	public function init($config = array()) {
 		if (!empty($config['type'])) {
 			$config['type'] = strtolower($config['type']);
 		}
@@ -111,7 +111,7 @@ class FtpSource extends DataSource {
  * @param array $data
  * @return array
  */
-	public function read(&$Model, $data=array()) {
+	public function read(&$Model, $data = array()) {
 		if (isset($data['fields']['count'])) {
 			return array(array(array('count' => 1)));
 		}
@@ -198,7 +198,7 @@ class FtpSource extends DataSource {
  * @param array $values
  * @return boolean
  */
-	public function create(&$Model, $fields=array(), $values=array()) {
+	public function create(&$Model, $fields = array(), $values = array()) {
 		if (!$this->connect()) {
 			throw new Exception(__d('cakeftp', 'Failed to connect'));
 			return false;
@@ -267,7 +267,7 @@ class FtpSource extends DataSource {
  * @param str $file
  * @return bool
  */
-	public function delete(&$Model, $file=null) {
+	public function delete(&$Model, $file = null) {
 		if (empty($file) || is_array($file)) {
 			$file = $Model->id;
 			if (empty($file)) {
@@ -299,7 +299,7 @@ class FtpSource extends DataSource {
  * @param array $data
  * @return mixed
 */
-	public function query($query=null, $data=null) {
+	public function query($query = null, $data = null) {
 		if (strtolower($query) == 'connect') {
 			return $this->connect(current($data));
 		}
@@ -340,7 +340,7 @@ class FtpSource extends DataSource {
 	* @return array
 	* @access public
 	*/
-	public function calculate(&$Model, $func, $params=array()) {
+	public function calculate(&$Model, $func, $params = array()) {
 		return array('count' => 1);
 	}
 
@@ -349,7 +349,7 @@ class FtpSource extends DataSource {
 	 * @param array $config
 	 * @return boolean
 	 */
-	public function connect($config=array()) {
+	public function connect($config = array()) {
 		if (!empty($config)) {
 			$this->init($config);
 		} else {
@@ -406,7 +406,7 @@ class FtpSource extends DataSource {
  * @param string $cmd
  * @return string
  */
-	public function console($cmd=null) {
+	public function console($cmd = null) {
 		if (empty($cmd)) {
 			throw new Exception(__d('cakeftp', 'Invalid command'));
 			return false;
@@ -451,7 +451,7 @@ class FtpSource extends DataSource {
 	 * @param string $path
 	 * @return array
 	 */
-	protected function _parsels($ls=null, $path='') {
+	protected function _parsels($ls = null, $path = '') {
 		if (empty($ls)) {
 			return array();
 		}
@@ -493,10 +493,10 @@ class FtpSource extends DataSource {
 			}
 			if (isset($raw)) {
 				$out[] = array(
-					'path'		=> dirname($path.$thisPath).DS.basename($path.$thisPath).DS,
+					'path'		=> dirname($path . $thisPath) . DS . basename($path . $thisPath) . DS,
 					'filename'	=> $filename,
-					'is_dir'	=> ($perm{0}=='d')?1:0,
-					'is_link'	=> ($perm{0}=='l')?1:0,
+					'is_dir'	=> ($perm{0}=='d') ? 1 : 0,
+					'is_link'	=> ($perm{0}=='l') ? 1 : 0,
 					'size'		=> $bytes,
 					'chmod'		=> $this->_chmodnum($perm),
 					'mtime'		=> date('Y-m-d H:i:s', strtotime($date)),

@@ -1,6 +1,6 @@
 <?php
 class DATABASE_CONFIG {
-	var $cakeftp = array(
+	public $cakeftp = array(
 		'datasource' => 'Ftp.FtpSource',
 		'host' => 'example.com',
 		'username' => 'testuser',
