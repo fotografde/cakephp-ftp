@@ -24,8 +24,6 @@ class FtpHelper extends AppHelper {
 		$out = '';
 		if (!empty($data['parent'])) {
 			$parent = $this->Html->link(__d('cakeftp', 'Up Folder'), array(
-				'plugin' => 'ftp',
-				'controller' => 'client',
 				'action' => 'index', $data['parent'],
 			));
 		} else {
@@ -50,20 +48,14 @@ class FtpHelper extends AppHelper {
 				$safe = urlencode(base64_encode($safe));
 				if ($is_dir == '1' || $is_link) {
 					$filename = $this->Html->link($filename, array(
-						'plugin' => 'ftp',
-						'controller' => 'client',
 						'action' => 'index', $safe,
 					));
 				}
 				if ($is_dir != '1' && $is_link != '1') {
 					$actions = $this->Html->link(__d('cakeftp', 'Download'), array(
-						'plugin' => 'ftp',
-						'controller' => 'client',
 						'action' => 'download', $safe,
 					));
 					$actions .= $this->Html->link(__d('cakeftp', 'Delete'), array(
-						'plugin' => 'ftp',
-						'controller' => 'client',
 						'action' => 'delete', $safe,
 					), array(), __d('cakeftp', 'Are you sure you wish to delete that file?'));
 				} else {
@@ -101,8 +93,6 @@ class FtpHelper extends AppHelper {
 			'form' => array(
 				'enctype' => 'multipart/form-data',
 				'url' => array(
-					'plugin' => 'ftp',
-					'controller' => 'client',
 					'action' => 'upload',
 				),
 			),
@@ -130,8 +120,6 @@ class FtpHelper extends AppHelper {
 		$data = array_merge(array(
 			'form' => array(
 				'url' => array(
-					'plugin' => 'ftp',
-					'controller' => 'client',
 					'action' => 'index',
 				),
 			),
