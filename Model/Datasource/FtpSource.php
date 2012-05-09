@@ -129,9 +129,6 @@ class FtpSource extends DataSource {
 				$path = '.';
 			}
 		}
-		if ($path != '.') {
-			$path = realpath($path);
-		}
 		$recursive = (!empty($data['recursive']) && $data['recursive']) ? true : false;
 		$hash = hash('md4', $path);
 		if (($out = Cache::read($hash, $this->config['cache'])) === false || $this->config['cache'] === false) {
