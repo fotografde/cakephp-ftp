@@ -111,7 +111,7 @@ class FtpSource extends DataSource {
  * @param array $data
  * @return array
  */
-	public function read(&$Model, $data = array()) {
+	public function read(Model $model, $data = array()) {
 		if (isset($data['fields']['count'])) {
 			return array(array(array('count' => 1)));
 		}
@@ -123,8 +123,8 @@ class FtpSource extends DataSource {
 		if (isset($data['conditions']['path'])) {
 			$path = $data['conditions']['path'];
 		} else {
-			if (!empty($Model->id)) {
-				$path = $Model->id;
+			if (!empty($model->id)) {
+				$path = $model->id;
 			} else {
 				$path = '.';
 			}
@@ -140,8 +140,8 @@ class FtpSource extends DataSource {
 					}
 					$path = $this->_ftp('ftp_pwd', array($this->config['connection']));
 					$raw = $this->_ftp('ftp_rawlist', array($this->config['connection'], "-A .", $recursive));
-					if (method_exists($Model, 'parseFtpResults')) {
-						$out = $Model->parseFtpResults($raw, $path, $this->config);
+					if (method_exists($model, 'parseFtpResults')) {
+						$out = $model->parseFtpResults($raw, $path, $this->config);
 					} else {
 						$out = $this->_parsels($raw, $path);
 					}
@@ -158,16 +158,16 @@ class FtpSource extends DataSource {
 					}
 					$path = $this->config['connection']->pwd();
 					$raw = $this->config['connection']->exec($cmd.$path);
-					if (method_exists($Model, 'parseFtpResults')) {
-						$out = $Model->parseFtpResults($raw, $path, $this->config);
+					if (method_exists($model, 'parseFtpResults')) {
+						$out = $model->parseFtpResults($raw, $path, $this->config);
 					} else {
 						$out = $this->_parsels($raw, $path);
 					}
 					break;
 			}
 			if ($this->config['cache'] !== false) {
-				if (isset($Model->cache)) {
-					Cache::set($Model->cache);
+				if (isset($model->cache)) {
+					Cache::set($model->cache);
 				}
 				Cache::write($hash, array('path' => $path, 'files' => $out), $this->config['cache']);
 			}
@@ -175,12 +175,12 @@ class FtpSource extends DataSource {
 			$path = $out['path'];
 			$out = $out['files'];
 		}
-		$Model->id = $path;
+		$model->id = $path;
 
 		$return = array();
 		if (is_array($out)) {
 			foreach ($out as $key => $val) {
-				$return[] = array($Model->alias => $val);
+				$return[] = array($model->alias => $val);
 			}
 		}
 		return $return;
@@ -195,7 +195,7 @@ class FtpSource extends DataSource {
  * @param array $values
  * @return boolean
  */
-	public function create(&$Model, $fields = array(), $values = array()) {
+	public function create(Model $model, $fields = NULL, $values = NULL) {
 		if (!$this->connect()) {
 			throw new Exception(__d('cakeftp', 'Failed to connect'));
 			return false;
@@ -205,9 +205,9 @@ class FtpSource extends DataSource {
 			return false;
 		}
 		$data['direction'] = (!empty($data['direction'])) ? strtolower($data['direction']) : 'up';
-		$Model->id = dirname($data['remote']);
+		$model->id = dirname($data['remote']);
 		if ($this->config['type'] == "ftp") {
-			if (!$this->_ftp('ftp_chdir', array($this->config['connection'], $Model->id))) {
+			if (!$this->_ftp('ftp_chdir', array($this->config['connection'], $model->id))) {
 				throw new Exception(__d('cakeftp', 'Could not change directory'));
 				return false;
 			}
@@ -232,7 +232,7 @@ class FtpSource extends DataSource {
 					return false;
 			}
 		} elseif ($this->config['type'] == "ssh") {
-			$this->config['connection']->chdir($Model->id);
+			$this->config['connection']->chdir($model->id);
 			switch ($data['direction']) {
 				case 'up':
 				case 'upload':
@@ -260,13 +260,13 @@ class FtpSource extends DataSource {
  * delete
  * Deletes a remote file
  *
- * @param obj $Model
+ * @param obj $model
  * @param str $file
  * @return bool
  */
-	public function delete(&$Model, $file = null) {
+	public function delete(Model $model, $file = null) {
 		if (empty($file) || is_array($file)) {
-			$file = $Model->id;
+			$file = $model->id;
 			if (empty($file)) {
 				return false;
 			}
@@ -312,7 +312,7 @@ class FtpSource extends DataSource {
 /**
  * listSources
  */
-	public function listSources() {
+	public function listSources($data = null) {
 		return false;
 	}
 
@@ -321,8 +321,8 @@ class FtpSource extends DataSource {
 	 * Dynamically describes _schema
 	 * @param obj $model
 	 */
-	public function describe(&$Model) {
-		$name = Inflector::underscore(Inflector::pluralize($Model->name));
+	public function describe($model) {
+		$name = Inflector::underscore(Inflector::pluralize($model->name));
 		$this->_schema[$name] = current($this->_schema);
 		unset($this->_schema['ftp']);
 		return $this->_schema[$name];
@@ -331,13 +331,13 @@ class FtpSource extends DataSource {
 	/**
 	* calculate
 	*
-	* @param Object $Model
+	* @param Object $model
 	* @param mixed $func
 	* @param array $params
 	* @return array
 	* @access public
 	*/
-	public function calculate(&$Model, $func, $params = array()) {
+	public function calculate(&$model, $func, $params = array()) {
 		return array('count' => 1);
 	}
 
