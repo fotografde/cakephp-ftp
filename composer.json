@@ -10,11 +10,9 @@
             "name": "Kyle Robinson Young",
             "email": "kyle@dontkry.com",
             "homepage": "http://dontkry.com",
-            "role": "Developer"
         }
     ],
     "require": {
-        "php": ">=5.2.8",
-        "shama/baton": "*"
+        "composer/installers": "*"
     }
 }
