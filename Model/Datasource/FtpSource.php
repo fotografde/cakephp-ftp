@@ -379,9 +379,9 @@ class FtpSource extends DataSource {
 
 			case 'ssh':
 				if (strpos(get_include_path(), 'phpseclib') === false) {
-					set_include_path(App::pluginPath('Ftp').DS.'Vendor'.DS.'phpseclib'.DS);
+					set_include_path(App::pluginPath('Ftp') . DS . 'Vendor' . DS . 'phpseclib' . DS . 'phpseclib' . DS);
 				}
-				if (!App::import('Vendor', 'Ftp.Net_SFTP', array('file' => 'phpseclib' . DS . 'Net' . DS . 'SFTP.php'))) {
+				if (!App::import('Vendor', 'Ftp.Net_SFTP', array('file' => 'phpseclib' . DS . 'phpseclib' . DS . 'Net' . DS . 'SFTP.php'))) {
 					throw new Exception(__d('cakeftp', 'Please upload the contents of the phpseclib (http://phpseclib.sourceforge.net/) to the app/Plugin/Ftp/Vendor/phpseclib/ folder'));
 					exit;
 				}
