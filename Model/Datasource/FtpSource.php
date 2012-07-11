@@ -525,6 +525,6 @@ class FtpSource extends DataSource {
  * @param array $params 
  */
 	protected function _ftp($method = null, $params = array()) {
-		return call_user_func_array($method, $params);
+		return @call_user_func_array($method, $params);
 	}
 }
