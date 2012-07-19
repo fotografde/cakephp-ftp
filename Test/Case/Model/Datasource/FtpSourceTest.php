@@ -54,7 +54,17 @@ class FtpSourceTest extends CakeTestCase {
 	public function setUp() {
 		parent::setUp();
 	}
-	
+
+/**
+ * tearDown method
+ * @return void
+ */
+	public function tearDown() {
+		Cache::clear(false, 'cakeftp');
+		unset($this->FtpSource);
+		parent::tearDown();
+	}
+
 /**
  * testInit
  */
@@ -64,6 +74,11 @@ class FtpSourceTest extends CakeTestCase {
 		$this->assertTrue($this->FtpSource->init($data));
 		$this->assertEqual($this->FtpSource->config['type'], 'ftp');
 		$this->assertEqual($this->FtpSource->config['cache'], 'cakeftp');
+
+		$this->assertTrue($this->FtpSource->init(array(
+			'host' => 'http://localhost',
+		)));
+		$this->assertEqual($this->FtpSource->config['host'], 'localhost');
 	}
 
 /**
@@ -260,7 +275,7 @@ END
 		$this->assertEqual($result[0]['is_link'], '0');
 		$this->assertEqual($result[0]['size'], '4096');
 		$this->assertEqual($result[0]['chmod'], '750');
-		$this->assertEqual($result[0]['mtime'], '2011-07-12 12:16:00');
+		$this->assertEqual($result[0]['mtime'], '2012-07-12 12:16:00');
 		$this->assertEqual($result[0]['raw'], 'drwxr-x---   3 kyle  group      4096 Jul 12 12:16 public_ftp');
 		
 		// FILENAME WITH SPACES IN IT?
@@ -269,13 +284,4 @@ END
 		// TODO: TRY TO REALLY BREAK THIS
 	}
 
-/**
- * tearDown method
- * @return void
- */
-	public function tearDown() {
-		Cache::clear(false, 'cakeftp');
-		unset($this->FtpSource);
-		parent::tearDown();
-	}
 }

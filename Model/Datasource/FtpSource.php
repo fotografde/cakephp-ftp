@@ -92,6 +92,9 @@ class FtpSource extends DataSource {
 			Cache::config('cakeftp', array('engine'=> 'File', 'prefix' => 'cakeftp_'));
 			$this->config['cache'] = 'cakeftp';
 		}
+		if (!empty($this->config['host'])) {
+			$this->config['host'] = preg_replace('/(.*):\/\//i', '', $this->config['host']);
+		}
 		return true;
 	}
 
@@ -359,9 +362,8 @@ class FtpSource extends DataSource {
 		}
 		switch ($this->config['type']) {
 			case 'ftp':
-				$host_ip = gethostbyname($this->config['host']);
 				$port = !empty($this->config['port']) ? $this->config['port'] : 21;
-				$this->config['connection'] = $this->_ftp('ftp_connect', array($host_ip, $port));
+				$this->config['connection'] = $this->_ftp('ftp_connect', array($this->config['host'], $port));
 				if (!$this->config['connection']) {
 					throw new Exception(__d('cakeftp', 'Failed to connect'));
 					return false;
