@@ -120,7 +120,6 @@ class FtpSource extends DataSource {
 		}
 		if (!$this->connect()) {
 			throw new Exception(__d('cakeftp', 'Failed to connect'));
-			return false;
 		}
 		$out = array();
 		if (isset($data['conditions']['path'])) {
@@ -139,7 +138,6 @@ class FtpSource extends DataSource {
 				case 'ftp':
 					if (!$this->_ftp('ftp_chdir', array($this->config['connection'], $path))) {
 						throw new Exception(__d('cakeftp', 'Folder does not exist'));
-						return false;
 					}
 					$path = $this->_ftp('ftp_pwd', array($this->config['connection']));
 					$raw = $this->_ftp('ftp_rawlist', array($this->config['connection'], "-A .", $recursive));
@@ -150,17 +148,16 @@ class FtpSource extends DataSource {
 					}
 					break;
 				case 'ssh':
-					$cmd = $this->config['ls_cmd'].' ';
+					$cmd = $this->config['ls_cmd'] . ' ';
 					if ($recursive) {
 						$cmd .= '-R ';
 					}
 					$chdir = (strlen($path) > 1) ? $this->config['connection']->chdir($path) : true;
 					if (empty($chdir)) {
 						throw new Exception(__d('cakeftp', 'Folder does not exist'));
-						return false;
 					}
 					$path = $this->config['connection']->pwd();
-					$raw = $this->config['connection']->exec($cmd.$path);
+					$raw = $this->config['connection']->exec($cmd . $path);
 					if (method_exists($model, 'parseFtpResults')) {
 						$out = $model->parseFtpResults($raw, $path, $this->config);
 					} else {
@@ -201,7 +198,6 @@ class FtpSource extends DataSource {
 	public function create(Model $model, $fields = NULL, $values = NULL) {
 		if (!$this->connect()) {
 			throw new Exception(__d('cakeftp', 'Failed to connect'));
-			return false;
 		}
 		$data = array_combine($fields, $values);
 		if (empty($data['remote']) || empty($data['local'])) {
@@ -212,7 +208,6 @@ class FtpSource extends DataSource {
 		if ($this->config['type'] == "ftp") {
 			if (!$this->_ftp('ftp_chdir', array($this->config['connection'], $model->id))) {
 				throw new Exception(__d('cakeftp', 'Could not change directory'));
-				return false;
 			}
 			switch ($data['direction']) {
 				case 'up':
@@ -222,7 +217,6 @@ class FtpSource extends DataSource {
 						return true;
 					}
 					throw new Exception(__d('cakeftp', 'Failed to upload'));
-					return false;
 
 				case 'down':
 				case 'download':
@@ -232,7 +226,6 @@ class FtpSource extends DataSource {
 					}
 					$this->_ftp('unlink', array($data['local']));
 					throw new Exception(__d('cakeftp', 'Failed to download'));
-					return false;
 			}
 		} elseif ($this->config['type'] == "ssh") {
 			$this->config['connection']->chdir($model->id);
@@ -244,7 +237,6 @@ class FtpSource extends DataSource {
 						return true;
 					}
 					throw new Exception(__d('cakeftp', 'Failed to upload'));
-					return false;
 
 				case 'down':
 				case 'download':
@@ -253,7 +245,6 @@ class FtpSource extends DataSource {
 						return true;
 					}
 					throw new Exception(__d('cakeftp', 'Failed to download'));
-					return false;
 			}
 		}
 		return false;
@@ -276,7 +267,6 @@ class FtpSource extends DataSource {
 		}
 		if (!$this->connect()) {
 			throw new Exception(__d('cakeftp', 'Failed to connect'));
-			return false;
 		}
 		if ($this->config['type'] == "ftp") {
 			if ($this->_ftp('ftp_delete', array($this->config['connection'], $file))) {
@@ -288,7 +278,6 @@ class FtpSource extends DataSource {
 			}
 		}
 		throw new Exception(__d('cakeftp', 'Failed to delete'));
-		return false;
 	}
 
 /**
@@ -340,7 +329,7 @@ class FtpSource extends DataSource {
 	* @return array
 	* @access public
 	*/
-	public function calculate(&$model, $func, $params = array()) {
+	public function calculate($model, $func, $params = array()) {
 		return array('count' => 1);
 	}
 
@@ -366,14 +355,12 @@ class FtpSource extends DataSource {
 				$this->config['connection'] = $this->_ftp('ftp_connect', array($this->config['host'], $port));
 				if (!$this->config['connection']) {
 					throw new Exception(__d('cakeftp', 'Failed to connect'));
-					return false;
 				}
 				$this->_ftp('ftp_set_option', array($this->config['connection'], FTP_TIMEOUT_SEC, $this->config['timeout']));
 				$login = $this->_ftp('ftp_login', array($this->config['connection'], $this->config['username'], $this->config['password']));
 				if (!$login) {
-					throw new Exception(__d('cakeftp', 'Login failed'));
 					unset($this->config['connection']);
-					return false;
+					throw new Exception(__d('cakeftp', 'Login failed'));
 				}
 				$this->_ftp('ftp_pasv', array($this->config['connection'], $this->config['passive']));
 				$this->_ftp('ftp_systype', array($this->config['connection']));
@@ -385,14 +372,12 @@ class FtpSource extends DataSource {
 				}
 				if (!App::import('Vendor', 'Ftp.Net_SFTP', array('file' => 'phpseclib' . DS . 'phpseclib' . DS . 'Net' . DS . 'SFTP.php'))) {
 					throw new Exception(__d('cakeftp', 'Please upload the contents of the phpseclib (http://phpseclib.sourceforge.net/) to the app/Plugin/Ftp/Vendor/phpseclib/ folder'));
-					exit;
 				}
 				$port = !empty($this->config['port']) ? $this->config['port'] : 22;
 				$this->config['connection'] = new Net_SFTP($this->config['host'], $port);
 				if (!$this->config['connection']->login($this->config['username'], $this->config['password'])) {
-					throw new Exception(__d('cakeftp', 'Login failed'));
 					unset($this->config['connection']);
-					return false;
+					throw new Exception(__d('cakeftp', 'Login failed'));
 				}
 				$this->config['systype'] = $this->console('uname');
 				return true;
@@ -408,11 +393,9 @@ class FtpSource extends DataSource {
 	public function console($cmd = null) {
 		if (empty($cmd)) {
 			throw new Exception(__d('cakeftp', 'Invalid command'));
-			return false;
 		}
 		if (!$this->connect()) {
 			throw new Exception(__d('cakeftp', 'Failed to connect'));
-			return false;
 		}
 		switch ($this->config['type']) {
 			case 'ftp':
@@ -475,9 +458,9 @@ class FtpSource extends DataSource {
 				list($raw, $perm, $hrdlnks, $user, $group, $bytes, $date, $time, $time2, $filename) = $regs;
 				$date = date("m-d", strtotime($date));
 				if (strpos($time, ":") !== false) {
-					$date = date('Y').'-'.$date." ".$time;
+					$date = date('Y') . '-' . $date . " " . $time;
 				} else {
-					$date = $time."-".$date." 00:00";
+					$date = $time . "-" . $date . " 00:00";
 				}
 			} else {
 				$regs = preg_split('@[\s]+@', $line);
