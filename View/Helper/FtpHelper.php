@@ -116,8 +116,9 @@ class FtpHelper extends AppHelper {
  *
  * @param array $data
  * @return string
+ * @deprecated Write your own, this will be removed soon.
  */
-	public function loginForm($data=null) {
+	public function loginForm($data = null) {
 		$data = array_merge(array(
 			'form' => array(
 				'url' => array(
