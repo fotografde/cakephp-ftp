@@ -111,20 +111,20 @@ class FtpSource extends DataSource {
  * Find files on remote server
  *
  * @param object $model
- * @param array $data
+ * @param array $queryData
  * @return array
  * @throws Exception
  */
-	public function read(Model $model, $data = array()) {
-		if (isset($data['fields']['count'])) {
+	public function read(Model $model, $queryData = array(), $recursive = null) {
+		if (isset($queryData['fields']['count'])) {
 			return array(array(array('count' => 1)));
 		}
 		if (!$this->connect()) {
 			throw new Exception(__d('cakeftp', 'Failed to connect'));
 		}
 		$out = array();
-		if (isset($data['conditions']['path'])) {
-			$path = $data['conditions']['path'];
+		if (isset($queryData['conditions']['path'])) {
+			$path = $queryData['conditions']['path'];
 		} else {
 			if (!empty($model->id)) {
 				$path = $model->id;
@@ -132,7 +132,7 @@ class FtpSource extends DataSource {
 				$path = '.';
 			}
 		}
-		$recursive = (!empty($data['recursive']) && $data['recursive']) ? true : false;
+		$recursive = (!empty($queryData['recursive']) && $queryData['recursive']) ? true : false;
 		$hash = hash('md4', $path);
 		if (($out = Cache::read($hash, $this->config['cache'])) === false || $this->config['cache'] === false) {
 			switch ($this->config['type']) {
@@ -430,8 +430,8 @@ class FtpSource extends DataSource {
 /**
  * _parsels
  * Parses results from ls command into array
- * 
- * You can override this in your Model by adding the method 
+ *
+ * You can override this in your Model by adding the method
  * parseFtpResults($raw = array(), $path = null, $config = array()) : array()
  *
  * @access protected
@@ -518,7 +518,7 @@ class FtpSource extends DataSource {
  * _ftp
  * Wrapper for FTP methods for testing
  * @param string $method
- * @param array $params 
+ * @param array $params
  */
 	protected function _ftp($method = null, $params = array()) {
 		return @call_user_func_array($method, $params);
