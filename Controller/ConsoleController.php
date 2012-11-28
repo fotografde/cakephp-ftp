@@ -7,9 +7,10 @@
  * @copyright 2011 Kyle Robinson Young
  */
 class ConsoleController extends FtpAppController {
+
 	public $uses = array('Ftp.Ftp');
-	
+
 	public function index() {
-		
 	}
+
 }

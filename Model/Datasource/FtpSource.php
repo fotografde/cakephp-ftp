@@ -89,7 +89,7 @@ class FtpSource extends DataSource {
 		}
 		$this->config = array_merge($this->config, (array)$config);
 		if ($this->config['cache'] === true) {
-			Cache::config('cakeftp', array('engine'=> 'File', 'prefix' => 'cakeftp_'));
+			Cache::config('cakeftp', array('engine' => 'File', 'prefix' => 'cakeftp_'));
 			$this->config['cache'] = 'cakeftp';
 		}
 		if (!empty($this->config['host'])) {
@@ -113,6 +113,7 @@ class FtpSource extends DataSource {
  * @param object $model
  * @param array $data
  * @return array
+ * @throws Exception
  */
 	public function read(Model $model, $data = array()) {
 		if (isset($data['fields']['count'])) {
@@ -194,8 +195,9 @@ class FtpSource extends DataSource {
  * @param array $fields
  * @param array $values
  * @return boolean
+ * @throws Exception
  */
-	public function create(Model $model, $fields = NULL, $values = NULL) {
+	public function create(Model $model, $fields = null, $values = null) {
 		if (!$this->connect()) {
 			throw new Exception(__d('cakeftp', 'Failed to connect'));
 		}
@@ -257,6 +259,7 @@ class FtpSource extends DataSource {
  * @param obj $model
  * @param str $file
  * @return bool
+ * @throws Exception
  */
 	public function delete(Model $model, $file = null) {
 		if (empty($file) || is_array($file)) {
@@ -284,10 +287,11 @@ class FtpSource extends DataSource {
  * query
  * Provides an interface to datasource methods.
  *
- * @param str $query
+ * @param string $query
  * @param array $data
  * @return mixed
-*/
+ * @throws Exception
+ */
 	public function query($query = null, $data = null) {
 		if (strtolower($query) == 'connect') {
 			return $this->connect(current($data));
@@ -308,11 +312,11 @@ class FtpSource extends DataSource {
 		return false;
 	}
 
-	/**
-	 * describe
-	 * Dynamically describes _schema
-	 * @param obj $model
-	 */
+/**
+ * describe
+ * Dynamically describes _schema
+ * @param obj $model
+ */
 	public function describe($model) {
 		$name = Inflector::underscore(Inflector::pluralize($model->name));
 		$this->_schema[$name] = current($this->_schema);
@@ -320,24 +324,25 @@ class FtpSource extends DataSource {
 		return $this->_schema[$name];
 	}
 
-	/**
-	* calculate
-	*
-	* @param Object $model
-	* @param mixed $func
-	* @param array $params
-	* @return array
-	* @access public
-	*/
+/**
+ * calculate
+ *
+ * @param Object $model
+ * @param mixed $func
+ * @param array $params
+ * @return array
+ * @access public
+ */
 	public function calculate($model, $func, $params = array()) {
 		return array('count' => 1);
 	}
 
-	/**
-	 * connect
-	 * @param array $config
-	 * @return boolean
-	 */
+/**
+ * connect
+ * @param array $config
+ * @return boolean
+ * @throws Exception
+ */
 	public function connect($config = array()) {
 		if (!empty($config)) {
 			$this->init($config);
@@ -389,6 +394,7 @@ class FtpSource extends DataSource {
  * console
  * @param string $cmd
  * @return string
+ * @throws Exception
  */
 	public function console($cmd = null) {
 		if (empty($cmd)) {
@@ -406,11 +412,11 @@ class FtpSource extends DataSource {
 		return false;
 	}
 
-	/**
-	 * quit
-	 * Closes and cleans up
-	 * @return boolean
-	 */
+/**
+ * quit
+ * Closes and cleans up
+ * @return boolean
+ */
 	public function quit() {
 		if ($this->config['connection']) {
 			if ($this->config['type'] == "ftp") {
@@ -421,18 +427,18 @@ class FtpSource extends DataSource {
 		return true;
 	}
 
-	/**
-	 * _parsels
-	 * Parses results from ls command into array
-	 * 
-	 * You can override this in your Model by adding the method 
-	 * parseFtpResults($raw = array(), $path = null, $config = array()) : array()
-	 *
-	 * @access protected
-	 * @param mixed $ls
-	 * @param string $path
-	 * @return array
-	 */
+/**
+ * _parsels
+ * Parses results from ls command into array
+ * 
+ * You can override this in your Model by adding the method 
+ * parseFtpResults($raw = array(), $path = null, $config = array()) : array()
+ *
+ * @access protected
+ * @param mixed $ls
+ * @param string $path
+ * @return array
+ */
 	protected function _parsels($ls = null, $path = '') {
 		if (empty($ls)) {
 			return array();
@@ -494,20 +500,20 @@ class FtpSource extends DataSource {
 		return $out;
 	}
 
-	/**
-	 * _chmodnum
-	 * @access protected
-	 * @author tmp at gmx dot de
-	 * @param string $chmod
-	 * @return string
-	 */
+/**
+ * _chmodnum
+ * @access protected
+ * @author tmp at gmx dot de
+ * @param string $chmod
+ * @return string
+ */
 	protected function _chmodnum($chmod) {
 		$trans = array('-' => '0', 'r' => '4', 'w' => '2', 'x' => '1');
 		$chmod = substr(strtr($chmod, $trans), 1);
 		$array = str_split($chmod, 3);
 		return array_sum(str_split(@$array[0])) . array_sum(str_split(@$array[1])) . array_sum(str_split(@$array[2]));
 	}
-	
+
 /**
  * _ftp
  * Wrapper for FTP methods for testing

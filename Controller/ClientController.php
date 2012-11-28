@@ -7,20 +7,25 @@
  * @copyright 2011 Kyle Robinson Young
  */
 class ClientController extends FtpAppController {
+
 	public $uses = array('Ftp.Ftp');
+
 	public $components = array('Session');
+
 	public $helpers = array('Ftp.Ftp');
+
 	public $connected = false;
+
 	public $tmp_file = 'cakeftp_download_tmpfile';
 
 /**
  * beforeFilter
  * Try to connect
  */
-	function beforeFilter() {
+	public function beforeFilter() {
 		parent::beforeFilter();
-		if (file_exists(TMP.$this->tmp_file)) {
-			unlink(TMP.$this->tmp_file);
+		if (file_exists(TMP . $this->tmp_file)) {
+			unlink(TMP . $this->tmp_file);
 		}
 		if (isset($this->request->data['Ftp'])) {
 			$info = $this->request->data['Ftp'];
@@ -53,7 +58,7 @@ class ClientController extends FtpAppController {
  *
  * @param string $path
  */
-	function index($path=null) {
+	public function index($path = null) {
 		$connected = false;
 		if (isset($path)) {
 			$path = base64_decode(urldecode($path));
@@ -77,10 +82,10 @@ class ClientController extends FtpAppController {
 /**
  * upload
  */
-	function upload() {
+	public function upload() {
 		if (!empty($this->request->data['File']) && $this->connected) {
 			try {
-				$remote = $this->request->data['File']['path'].DS.$this->request->data['File']['file']['name'];
+				$remote = $this->request->data['File']['path'] . DS . $this->request->data['File']['file']['name'];
 				if ($this->Ftp->save(array(
 					'local' => $this->request->data['File']['file']['tmp_name'],
 					'remote' => $remote,
@@ -104,13 +109,13 @@ class ClientController extends FtpAppController {
  * download
  * @param string $path
  */
-	function download($path=null) {
+	public function download($path = null) {
 		$path = base64_decode(urldecode($path));
 		if ($this->connected) {
 			$pathinfo = pathinfo($path);
 			try {
 				if ($this->Ftp->save(array(
-					'local' => TMP.$this->tmp_file,
+					'local' => TMP . $this->tmp_file,
 					'remote' => $path,
 					'direction' => 'down',
 				))) {
@@ -126,7 +131,7 @@ class ClientController extends FtpAppController {
 					$this->set($params);
 				}
 			} catch (Exception $e) {
-				@unlink(TMP.$this->tmp_file);
+				@unlink(TMP . $this->tmp_file);
 				$this->Session->setFlash($e->getMessage());
 			}
 		}
@@ -136,7 +141,7 @@ class ClientController extends FtpAppController {
  * delete
  * @param string $path
  */
-	function delete($path=null) {
+	public function delete($path = null) {
 		$path = base64_decode(urldecode($path));
 		if ($this->connected) {
 			try {
@@ -159,7 +164,7 @@ class ClientController extends FtpAppController {
 /**
  * logout
  */
-	function logout() {
+	public function logout() {
 		$this->Session->delete('ftp');
 		$this->redirect(array(
 			'plugin' => 'ftp',

@@ -7,6 +7,7 @@
  * @copyright 2011 Kyle Robinson Young
  */
 class FtpHelper extends AppHelper {
+
 	public $helpers = array('Html', 'Form');
 
 /**
@@ -43,7 +44,7 @@ class FtpHelper extends AppHelper {
 				if ($is_link == '1') {
 					$safe = substr($filename, strpos($filename, '-> ') + 3);
 				} else {
-					$safe = $path.$filename;
+					$safe = $path . $filename;
 				}
 				$safe = urlencode(base64_encode($safe));
 				if ($is_dir == '1' || $is_link) {
@@ -88,7 +89,7 @@ class FtpHelper extends AppHelper {
  * @param array $data
  * @return string
  */
-	public function uploadForm($data=null) {
+	public function uploadForm($data = null) {
 		$data = array_merge(array(
 			'form' => array(
 				'enctype' => 'multipart/form-data',
@@ -97,7 +98,7 @@ class FtpHelper extends AppHelper {
 				),
 			),
 			'path' => '.',
-		), (array) $data);
+		), (array)$data);
 		$out = '';
 		$out .= $this->Form->create('File', $data['form']);
 		$out .= $this->Form->hidden('path', array('value' => $data['path']));
@@ -128,7 +129,7 @@ class FtpHelper extends AppHelper {
 			'defaultPassword' => '',
 			'defaultPath' => '.',
 			'defaultType' => 'ftp',
-		), (array) $data);
+		), (array)$data);
 		$out = '';
 		$out .= $this->Form->create('Ftp', $data['form']);
 		$out .= $this->Form->input('host', array('default' => $data['defaultHost']));
