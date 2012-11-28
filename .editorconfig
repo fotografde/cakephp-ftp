@@ -6,8 +6,6 @@ root = true
 [*]
 indent_style = tab
 end_of_line = lf
-
-[*.php]
 insert_final_newline = true
 trim_trailing_whitespace = true
 
