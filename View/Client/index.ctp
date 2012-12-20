@@ -32,7 +32,7 @@
 	<?php
 	echo $this->Ftp->uploadForm(array('path' => $path));
 	echo $this->Ftp->listFiles(array(
-		'files' => $files,
+		'files' => !empty($files) ? $files : array(),
 		'parent' => isset($parent) ? $parent : '',
 	));
 	?>

@@ -158,11 +158,11 @@ class FtpSource extends DataSource {
 						throw new Exception(__d('cakeftp', 'Folder does not exist'));
 					}
 					$path = $this->config['connection']->pwd();
-					$raw = $this->config['connection']->exec($cmd . $path);
+					$raw = $this->config['connection']->rawlist($path);
 					if (method_exists($model, 'parseFtpResults')) {
 						$out = $model->parseFtpResults($raw, $path, $this->config);
 					} else {
-						$out = $this->_parsels($raw, $path);
+						$out = $this->_parseSSH($raw, $path);
 					}
 					break;
 			}
@@ -425,6 +425,32 @@ class FtpSource extends DataSource {
 			$this->config['connection'] = null;
 		}
 		return true;
+	}
+
+/**
+ * _parseSSH
+ * Normalizes the results from SFTP->rawlist
+ *
+ * @access protected
+ * @param mixed $rawList
+ * @param string $path
+ * @return array
+ */
+	protected function _parseSSH($rawlist = array(), $path = '') {
+		$out = array();
+		foreach ($rawlist as $file => $data) {
+			$out[] = array(
+				'path'		=> $path . DS,
+				'filename'	=> $file,
+				'is_dir'	=> ($data['type'] === NET_SFTP_TYPE_DIRECTORY),
+				'is_link'	=> ($data['type'] === NET_SFTP_TYPE_SYMLINK),
+				'size'		=> $data['size'],
+				'chmod'		=> decoct($data['permissions']),
+				'mtime'		=> date('Y-m-d H:i:s', strtotime($data['mtime'])),
+				'raw'		=> $data,
+			);
+		}
+		return $out;
 	}
 
 /**

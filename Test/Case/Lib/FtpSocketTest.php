@@ -3,7 +3,7 @@ App::uses('FtpSocket', 'Ftp.Lib');
 
 /**
  * FtpSocket Test
- * 
+ *
  * @package cakeftp
  * @author Kyle Robinson Young <kyle at dontkry.com>
  * @copyright 2012 Kyle Robinson Young

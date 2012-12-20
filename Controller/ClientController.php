@@ -63,6 +63,9 @@ class ClientController extends FtpAppController {
 		if (isset($path)) {
 			$path = base64_decode(urldecode($path));
 		}
+		if (!empty($this->request->data['Ftp']['path'])) {
+			$path = $this->request->data['Ftp']['path'];
+		}
 		if ($this->connected) {
 			try {
 				$files = $this->Ftp->find('all', array(

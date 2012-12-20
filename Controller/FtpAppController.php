@@ -11,7 +11,6 @@ class FtpAppController extends AppController {
 /**
  * __construct
  * Must manually enable to use.
- *
  */
 	public function __construct($request = null, $response = null) {
 		parent::__construct($request, $response);
