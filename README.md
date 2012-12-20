@@ -45,6 +45,7 @@ If you found this release useful please let the author know! Follow on [Twitter]
 
 * Added ability to override FtpSource::_parsels()
 * Upgraded for CakePHP 2.0
+* Updated to phpseclib 0.3.1
 
 ### 0.1
 
