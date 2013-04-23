@@ -454,7 +454,7 @@ class FtpSource extends DataSource {
 		$out = array();
 		foreach ($rawlist as $file => $data) {
 			$out[] = array(
-				'path'		=> $path . DS,
+				'path'		=> $path . '/',
 				'filename'	=> $file,
 				'is_dir'	=> ($data['type'] === NET_SFTP_TYPE_DIRECTORY),
 				'is_link'	=> ($data['type'] === NET_SFTP_TYPE_SYMLINK),
