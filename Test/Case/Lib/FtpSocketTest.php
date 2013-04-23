@@ -44,7 +44,7 @@ class FtpSocketTest extends CakeTestCase {
  */
 	public function testConfig() {
 		$result = count($this->Ftp->config);
-		$this->assertEquals(12, $result);
+		$this->assertEquals(11, $result);
 	}
 
 /**
