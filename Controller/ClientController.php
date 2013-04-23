@@ -88,7 +88,7 @@ class ClientController extends FtpAppController {
 	public function upload() {
 		if (!empty($this->request->data['File']) && $this->connected) {
 			try {
-				$remote = $this->request->data['File']['path'] . DS . $this->request->data['File']['file']['name'];
+				$remote = $this->request->data['File']['path'] . '/' . $this->request->data['File']['file']['name'];
 				if ($this->Ftp->save(array(
 					'local' => $this->request->data['File']['file']['tmp_name'],
 					'remote' => $remote,
