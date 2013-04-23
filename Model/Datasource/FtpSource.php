@@ -253,6 +253,20 @@ class FtpSource extends DataSource {
 	}
 
 /**
+ * update
+ * Upload/Download after find
+ *
+ * @param object $model
+ * @param array $fields
+ * @param array $values
+ * @param array $conditions
+ * @return boolean
+ */
+	public function update(Model $model, $fields = null, $values = null, $conditions = null) {
+		return $this->create($model, $fields, $values);
+	}
+
+/**
  * delete
  * Deletes a remote file
  *
