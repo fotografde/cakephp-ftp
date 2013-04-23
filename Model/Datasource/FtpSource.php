@@ -432,7 +432,7 @@ class FtpSource extends DataSource {
  * @return boolean
  */
 	public function quit() {
-		if ($this->config['connection']) {
+		if (isset($this->config['connection']) && $this->config['connection']) {
 			if ($this->config['type'] == "ftp") {
 				$this->_ftp('ftp_close', array($this->config['connection']));
 			}
