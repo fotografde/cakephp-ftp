@@ -16,9 +16,9 @@ class FtpSocketTest extends CakeTestCase {
  * @var array
  */
 	protected $_config = array(
-		'host'		=> 'localhost',
-		'username'	=> 'user',
-		'password'	=> '1234',
+		'host'		=> 'ftp.secureftp-test.com',
+		'username'	=> 'test',
+		'password'	=> 'test',
 	);
 
 /**
@@ -60,7 +60,7 @@ class FtpSocketTest extends CakeTestCase {
  */
 	public function testLogin() {
 		$result = $this->Ftp->login()->responses;
-		$this->assertContains('logged in', current($result));
+		$this->assertContains('220 Please visit http://sourceforge.net/projects/filezilla/', current($result));
 	}
 
 /**
