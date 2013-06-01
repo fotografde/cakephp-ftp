@@ -33,6 +33,7 @@ class FtpSource extends DataSource {
 		'connection' => null,
 		'systype' => 'unknown',
 		'cache' => false,
+		'ds' => '/',
 	);
 
 /**
@@ -525,8 +526,12 @@ class FtpSource extends DataSource {
 				}
 			}
 			if (isset($raw)) {
+				$_path = dirname($path . $thisPath) . DS . basename($path . $thisPath) . DS;
+				if (DS !== $this->config['ds']) {
+					$_path = str_replace(DS, $this->config['ds'], $_path);
+				}
 				$out[] = array(
-					'path'		=> dirname($path . $thisPath) . DS . basename($path . $thisPath) . DS,
+					'path'		=> $_path,
 					'filename'	=> $filename,
 					'is_dir'	=> ($perm{0} == 'd') ? 1 : 0,
 					'is_link'	=> ($perm{0} == 'l') ? 1 : 0,
