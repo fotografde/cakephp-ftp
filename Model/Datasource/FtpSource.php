@@ -387,11 +387,11 @@ class FtpSource extends DataSource {
 				return true;
 
 			case 'ssh':
-				if (strpos(get_include_path(), 'phpseclib') === false) {
-					set_include_path(App::pluginPath('Ftp') . DS . 'Vendor' . DS . 'phpseclib' . DS . 'phpseclib' . DS);
-				}
-				if (!App::import('Vendor', 'Ftp.Net_SFTP', array('file' => 'phpseclib' . DS . 'phpseclib' . DS . 'Net' . DS . 'SFTP.php'))) {
-					throw new Exception(__d('cakeftp', 'Please upload the contents of the phpseclib (https://github.com/phpseclib/phpseclib) to the app/Plugin/Ftp/Vendor/phpseclib/ folder'));
+				if (strpos(get_include_path(), 'phpseclib') === false){
+					set_include_path(App::pluginPath('Ftp').DS.'Vendor'.DS.'phpseclib'.DS.'phpseclib'.DS.PATH_SEPARATOR.get_include_path());
+					if (!App::import('Vendor', 'Ftp.Net_SFTP', array('file' => 'phpseclib' . DS . 'phpseclib' . DS . 'Net' . DS . 'SFTP.php'))) {
+						throw new Exception(__d('cakeftp', 'Please upload the contents of the phpseclib (https://github.com/phpseclib/phpseclib) to the app/Plugin/Ftp/Vendor/phpseclib/ folder'));
+					}
 				}
 				$port = !empty($this->config['port']) ? $this->config['port'] : 22;
 				$this->config['connection'] = new Net_SFTP($this->config['host'], $port);
