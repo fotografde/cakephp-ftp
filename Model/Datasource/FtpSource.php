@@ -133,6 +133,11 @@ class FtpSource extends DataSource {
 				$path = '.';
 			}
 		}
+
+		if ($path !== '.') {
+			$path = $this->getAbsolutePath($path);
+		}
+
 		$recursive = (!empty($queryData['recursive']) && $queryData['recursive']) ? true : false;
 		$hash = hash('md4', $path);
 		if (($out = Cache::read($hash, $this->config['cache'])) === false || $this->config['cache'] === false) {
@@ -533,8 +538,8 @@ class FtpSource extends DataSource {
 				$out[] = array(
 					'path'		=> $_path,
 					'filename'	=> $filename,
-					'is_dir'	=> ($perm{0} == 'd') ? 1 : 0,
-					'is_link'	=> ($perm{0} == 'l') ? 1 : 0,
+					'is_dir'	=> ($perm{0} === 'd') ? 1 : 0,
+					'is_link'	=> ($perm{0} === 'l') ? 1 : 0,
 					'size'		=> $bytes,
 					'chmod'		=> $this->_chmodnum($perm),
 					'mtime'		=> date('Y-m-d H:i:s', strtotime($date)),
@@ -568,4 +573,27 @@ class FtpSource extends DataSource {
 	protected function _ftp($method = null, $params = array()) {
 		return @call_user_func_array($method, $params);
 	}
+
+	/**
+	 * An realpath() implementaion without needing local file/dir existance
+	 * @param string $path
+	 * @return string
+	 */
+	protected function getAbsolutePath($path) {
+		$path = str_replace(array('/', '\\'), DS, $path);
+		$parts = array_filter(explode(DS, $path), 'strlen');
+		$absolutes = array();
+		foreach ($parts as $part) {
+			if ($part === '.') {
+				continue;
+			}
+			if ($part === '..') {
+				array_pop($absolutes);
+			} else {
+				$absolutes[] = $part;
+			}
+		}
+		return implode(DS, $absolutes);
+	}
+
 }

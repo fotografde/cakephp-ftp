@@ -1,4 +1,6 @@
 <?php
+App::uses('AppController', 'Controller');
+
 /**
  * Ftp App Controller
  *
@@ -15,8 +17,7 @@ class FtpAppController extends AppController {
 	public function __construct($request = null, $response = null) {
 		parent::__construct($request, $response);
 		if (Configure::read('Cakeftp.enabled') !== true) {
-			user_error(__d('cakeftp', 'CakeFTP client/console are disabled by default for security. To enable put Configure::write(\'Cakeftp.enabled\', true); in your config/bootstrap.php or app_controller.php.', true));
-			exit;
+			throw new InternalErrorException(__d('cakeftp', 'CakeFTP client/console are disabled by default for security. To enable put Configure::write(\'Cakeftp.enabled\', true); in your Config/bootstrap.php or AppController.php.'));
 		}
 	}
 }

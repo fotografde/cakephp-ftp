@@ -1,4 +1,6 @@
 <?php
+App::uses('FtpAppController', 'Ftp.Controller');
+
 /**
  * Client Controller
  *
@@ -100,12 +102,11 @@ class ClientController extends FtpAppController {
 			}
 		}
 		$path = (isset($this->request->data['File']['path'])) ? $this->request->data['File']['path'] : '';
-		$this->redirect(array(
+		return $this->redirect(array(
 			'plugin' => 'ftp',
 			'controller' => 'client',
 			'action' => 'index', urlencode(base64_encode($path)),
 		));
-		exit;
 	}
 
 /**
@@ -156,12 +157,11 @@ class ClientController extends FtpAppController {
 			}
 		}
 		$path = urlencode(base64_encode(dirname($path)));
-		$this->redirect(array(
+		return $this->redirect(array(
 			'plugin' => 'ftp',
 			'controller' => 'client',
 			'action' => 'index', $path,
 		));
-		exit;
 	}
 
 /**
@@ -169,11 +169,10 @@ class ClientController extends FtpAppController {
  */
 	public function logout() {
 		$this->Session->delete('ftp');
-		$this->redirect(array(
+		return $this->redirect(array(
 			'plugin' => 'ftp',
 			'controller' => 'client',
 			'action' => 'index',
 		));
-		exit;
 	}
 }

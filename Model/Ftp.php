@@ -1,6 +1,6 @@
 <?php
+App::uses('AppModel', 'Model');
 App::uses('ConnectionManager', 'Model');
-
 /**
  * Ftp Model
  * 

@@ -11,7 +11,7 @@ App::uses('FtpSource', 'Ftp.Model/Datasource');
  * @author Kyle Robinson Young <kyle at dontkry.com>
  * @copyright 2011 Kyle Robinson Young
  */
-class FtpTestModel extends Model {
+class FtpSourceTestModel extends Model {
 
 	public $name = 'Ftp';
 
@@ -28,7 +28,7 @@ class FtpTestModel extends Model {
 
 }
 
-class FtpTestSource extends FtpSource {
+class FtpSourceTestSource extends FtpSource {
 
 /**
  * parsels
@@ -81,7 +81,7 @@ class FtpSourceTest extends CakeTestCase {
 		$this->assertTrue($this->FtpSource->init(array(
 			'host' => 'http://localhost',
 		)));
-		$this->assertEqual($this->FtpSource->config['host'], 'localhost');
+		$this->assertEquals('localhost', $this->FtpSource->config['host']);
 	}
 
 /**
@@ -139,7 +139,7 @@ END
  * testRead
  */
 	public function testRead() {
-		$Model = new FtpTestModel();
+		$Model = new FtpSourceTestModel();
 		$this->FtpSource = $this->getMock('FtpSource', array('_ftp'), array($this->defaultConfig));
 		$callback = create_function('$method,$params', <<<END
 			if (\$method == 'ftp_pwd') {
@@ -189,7 +189,7 @@ END
  * testCreate
  */
 	public function testCreate() {
-		$Model = new FtpTestModel();
+		$Model = new FtpSourceTestModel();
 		$this->FtpSource = $this->getMock('FtpSource', array('_ftp'), array($this->defaultConfig));
 		$callback = create_function('$method,$params', <<<END
 			if (\$method == 'ftp_put') {
@@ -232,7 +232,7 @@ END
  * testDelete
  */
 	public function testDelete() {
-		$Model = new FtpTestModel();
+		$Model = new FtpSourceTestModel();
 		$this->FtpSource = $this->getMock('FtpSource', array('_ftp'), array($this->defaultConfig));
 		$callback = create_function('$method,$params', <<<END
 			if (\$method == 'ftp_delete') {
@@ -260,7 +260,7 @@ END
  * testParseLs
  */
 	public function testParseLs() {
-		$this->FtpSource = new FtpTestSource($this->defaultConfig);
+		$this->FtpSource = new FtpSourceTestSource($this->defaultConfig);
 		$in = array(
 			"drwxr-x---   3 kyle  group      4096 Jul 12 12:16 public_ftp",
 			"lrwxrwxrwx   1 kyle  group        11 Jul 12 12:16 www -> public_html",

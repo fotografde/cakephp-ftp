@@ -1,4 +1,6 @@
 <?php
+App::uses('FtpAppController', 'Ftp.Controller');
+
 /**
  * Console Controller
  * 

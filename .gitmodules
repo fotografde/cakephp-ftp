@@ -1,3 +1,0 @@
-[submodule "Vendor/phpseclib"]
-	path = Vendor/phpseclib
-	url = git://github.com/phpseclib/phpseclib.git

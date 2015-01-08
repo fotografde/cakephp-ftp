@@ -5,6 +5,7 @@ App::uses('AppModel', 'Model');
 App::uses('Ftp', 'Ftp.Model');
 App::uses('DataSource', 'Model/Datasource');
 App::uses('FtpSource', 'Ftp.Model/Datasource');
+App::uses('FtpTestSource', 'Ftp.Model/Datasource');
 
 /**
  * Ftp Test
@@ -52,7 +53,7 @@ class FtpTestModel extends Ftp {
  * @param string $table
  * @param string $ds
  */
-	public function __construct($id=null, $table=null, $ds=null) {
+	public function __construct($id = null, $table = null, $ds = null) {
 		ConnectionManager::create($this->useDbConfig, array(
 			'datasource' => 'Ftp.FtpTestSource',
 			'host' => 'localhost',

@@ -1,4 +1,6 @@
 <?php
+App::uses('AppHelper', 'View/Helper');
+
 /**
  * Ftp Helper
  *
@@ -122,6 +124,8 @@ class FtpHelper extends AppHelper {
 		$data = array_merge(array(
 			'form' => array(
 				'url' => array(
+					'plugin' => 'ftp',
+					'controller' => 'client',
 					'action' => 'index',
 				),
 			),
