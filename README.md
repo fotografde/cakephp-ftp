@@ -1,5 +1,5 @@
 # CakeFTP: A FTP/SFTP Plugin for CakePHP
-[![Build Status](https://api.travis-ci.org/fotografde/cakeftp.svg)](https://travis-ci.org/fotografde/cakeftp)
+[![Build Status](https://api.travis-ci.org/fotografde/cakephp-ftp.svg)](https://travis-ci.org/fotografde/cakephp-ftp)
 [![License](https://poser.pugx.org/fotografde/cakephp-ftp/license.svg)](https://packagist.org/packages/fotografde/cakephp-ftp)
 [![Total Downloads](https://poser.pugx.org/fotografde/cakephp-ftp/d/total.svg)](https://packagist.org/packages/fotografde/cakephp-ftp)
 
