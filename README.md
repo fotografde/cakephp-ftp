@@ -1,7 +1,7 @@
 # CakeFTP: A FTP/SFTP Plugin for CakePHP
 [![Build Status](https://api.travis-ci.org/fotografde/cakeftp.svg)](https://travis-ci.org/fotografde/cakeftp)
-[![License](https://poser.pugx.org/shama/ftp/license.svg)](https://packagist.org/packages/shama/ftp)
-[![Total Downloads](https://poser.pugx.org/shama/ftp/d/total.svg)](https://packagist.org/packages/shama/ftp)
+[![License](https://poser.pugx.org/fotografde/cakephp-ftp/license.svg)](https://packagist.org/packages/fotografde/cakephp-ftp)
+[![Total Downloads](https://poser.pugx.org/fotografde/cakephp-ftp/d/total.svg)](https://packagist.org/packages/fotografde/cakephp-ftp)
 
 Requires: CakePHP 2.0+ (tested with CakePHP 2.5+), PHP 5.2+ (tested with PHP5.3+)
 
@@ -12,26 +12,11 @@ Requires: CakePHP 2.0+ (tested with CakePHP 2.5+), PHP 5.2+ (tested with PHP5.3+
 
 ## Manual
 
-For info on how to install and use this plugin please refer to the [wiki](http://github.com/shama/cakeftp/wiki).
+For info on how to install and use this plugin please refer to the [wiki](http://github.com/fotografde/cakephp-ftp/wiki).
 
 ## Issues
 
-Please report any issues you have with the plugin to the [issue tracker](http://github.com/shama/cakeftp/issues) on github.
-
-## License
-
-CakeFTP is offered under an [MIT license](http://www.opensource.org/licenses/mit-license.php).
-
-## Copyright
-
-2011 Kyle Robinson Young, [dontkry.com](http://dontkry.com)
-
-If you found this release useful please let the author know! Follow on [Twitter](http://twitter.com/shamakry)
-
-## Thanks
-
-* TerraFrost (Jim Wigginton), for the awesome [phpseclib](http://phpseclib.sourceforge.net/).
-* Ian Tucker @ [Everflight](http://www.everflight.com/), for helping me get this started.
+Please report any issues you have with the plugin to the [issue tracker](http://github.com/fotografde/cakephp-ftp/issues) on github.
 
 ## Roadmap and Known Issues
 
@@ -63,3 +48,18 @@ If you found this release useful please let the author know! Follow on [Twitter]
 * Built ftp datasource
 * Setup app model and app controller
 * Setup basic plugin
+
+## License
+
+CakeFTP is offered under an [MIT license](http://www.opensource.org/licenses/mit-license.php).
+
+## Copyright
+
+2011 Kyle Robinson Young, [dontkry.com](http://dontkry.com)
+
+If you found this release useful please let the author know! Follow on [Twitter](http://twitter.com/shamakry)
+
+## Thanks
+
+* TerraFrost (Jim Wigginton), for the awesome [phpseclib](http://phpseclib.sourceforge.net/).
+* Ian Tucker @ [Everflight](http://www.everflight.com/), for helping me get this started.
