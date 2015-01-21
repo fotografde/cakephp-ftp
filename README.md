@@ -1,6 +1,6 @@
 # CakeFTP: A FTP/SFTP Plugin for CakePHP
 
-Requires: CakePHP 2.0+, PHP 5.2+
+Requires: CakePHP 2.0+ (tested with CakePHP 2.5+), PHP 5.2+ (tested with PHP5.3+)
 
 ## Features
 
