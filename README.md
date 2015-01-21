@@ -1,7 +1,7 @@
 # CakeFTP: A FTP/SFTP Plugin for CakePHP
-[![Build Status](https://api.travis-ci.org/fotografde/cakeftp.png)](https://travis-ci.org/fotografde/cakeftp)
-[![License](https://poser.pugx.org/fotografde/shama/license.png)](https://packagist.org/packages/shama/cakeftp)
-[![Total Downloads](https://poser.pugx.org/shama/cakeftp/d/total.png)](https://packagist.org/packages/shama/cakeftp)
+[![Build Status](https://api.travis-ci.org/fotografde/cakeftp.svg)](https://travis-ci.org/fotografde/cakeftp)
+[![License](https://poser.pugx.org/shama/ftp/license.svg)](https://packagist.org/packages/shama/ftp)
+[![Total Downloads](https://poser.pugx.org/shama/ftp/d/total.svg)](https://packagist.org/packages/shama/ftp)
 
 Requires: CakePHP 2.0+ (tested with CakePHP 2.5+), PHP 5.2+ (tested with PHP5.3+)
 
