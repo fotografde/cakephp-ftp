@@ -7,8 +7,8 @@ php:
 
 env:
   global:
-    - REPO_NAME=cakephp-setup
-    - PLUGIN_NAME=Setup
+    - REPO_NAME=cakeftp
+    - PLUGIN_NAME=Ftp
     - REQUIRE=""
 
   matrix:
