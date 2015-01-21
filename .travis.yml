@@ -1,0 +1,39 @@
+language: php
+
+php:
+  - 5.3
+  - 5.4
+  - 5.5
+
+env:
+  global:
+    - REPO_NAME=cakephp-setup
+    - PLUGIN_NAME=Setup
+    - REQUIRE=""
+
+  matrix:
+    - DB=mysql CAKE_VERSION=master
+    - DB=mysql CAKE_VERSION=2.7
+
+matrix:
+  include:
+    - php: 5.4
+      env:
+        - DB=mysql CAKE_VERSION=master COVERALLS=1
+
+before_script:
+  - git clone -b master https://github.com/FriendsOfCake/travis.git --depth 1 ../travis
+  - ../travis/before_script.sh
+  - cd ../cakephp/app
+  - echo "Configure::write('Security.salt', 'AycG93b0qyJfIxfs2guVoUubWwvniR2G0FgaC9mi');" >> Config/bootstrap.php
+  - echo "Configure::write('Security.cipherSeed', '16659201697453542496749683615');" >> Config/bootstrap.php
+  - cd ..
+
+script:
+  - ../travis/script.sh
+
+after_success:
+  - ../travis/after_success.sh
+
+notifications:
+  email: false
