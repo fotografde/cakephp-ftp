@@ -1,10 +1,10 @@
 {
-    "name": "shama/ftp",
+    "name": "fotografde/cakephp-ftp",
     "type": "cakephp-plugin",
     "version": "0.2.0",
     "description": "FTP/SFTP Plugin for CakePHP",
     "keywords": ["cakephp","ftp"],
-    "homepage": "http://github.com/shama/cakeftp",
+    "homepage": "http://github.com/fotografde/cakephp-ftp",
     "license": "MIT",
     "authors": [
         {
