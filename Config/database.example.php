@@ -1,5 +1,6 @@
 <?php
 class DATABASE_CONFIG {
+
 	public $cakeftp = array(
 		'datasource' => 'Ftp.FtpSource',
 		'host' => 'example.com',
@@ -8,4 +9,5 @@ class DATABASE_CONFIG {
 		'type' => 'ftp',
 		'port' => 21,
 	);
+
 }
