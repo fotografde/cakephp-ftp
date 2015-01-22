@@ -1,7 +1,6 @@
 {
 	"name": "fotografde/cakephp-ftp",
 	"type": "cakephp-plugin",
-	"version": "2.5.0",
 	"description": "FTP/SFTP Plugin for CakePHP",
 	"keywords": ["cakephp","ftp"],
 	"homepage": "http://github.com/fotografde/cakephp-ftp",
