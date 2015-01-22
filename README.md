@@ -3,7 +3,7 @@
 [![License](https://poser.pugx.org/fotografde/cakephp-ftp/license.svg)](https://packagist.org/packages/fotografde/cakephp-ftp)
 [![Total Downloads](https://poser.pugx.org/fotografde/cakephp-ftp/d/total.svg)](https://packagist.org/packages/fotografde/cakephp-ftp)
 
-Requires: CakePHP 2.0+ (tested with CakePHP 2.5+), PHP 5.2+ (tested with PHP5.3+)
+Requires: CakePHP 2.0+ (tested with CakePHP 2.5+), PHP 5.3+, phpseclib for ssh
 
 ## Features
 

@@ -4,6 +4,17 @@ App::uses('Model', 'Model');
 App::uses('DataSource', 'Model/Datasource');
 App::uses('FtpSource', 'Ftp.Model/Datasource');
 
+/*
+if (!class_exists('Net_SFTP') && strpos(get_include_path(), 'phpseclib') === false) {
+	if (!App::import('Vendor', 'Net_SFTP', array('file' => 'phpseclib' . DS . 'phpseclib' . DS . 'Net' . DS . 'SFTP.php'))) {
+		throw new Exception(__d('cakeftp', 'Please upload the contents of the phpseclib (https://github.com/phpseclib/phpseclib) to the APP/Vendor/phpseclib/ folder'));
+	}
+}
+if (!class_exists('Net_SFTP')) {
+	throw new Exception(__d('cakeftp', 'Please make sure phpseclib (https://github.com/phpseclib/phpseclib) is a loaded composer dependency.'));
+}
+*/
+
 /**
  * Ftp Source Test
  *
@@ -69,10 +80,10 @@ class FtpSourceTest extends CakeTestCase {
 	}
 
 /**
- * testInit
+ * testInit and uppercase type
  */
 	public function testInit() {
-		$this->FtpSource = new FtpSource(array($this->defaultConfig));
+		$this->FtpSource = new FtpSource($this->defaultConfig);
 		$data = array('type' => 'FTP', 'cache' => true);
 		$this->assertTrue($this->FtpSource->init($data));
 		$this->assertEqual($this->FtpSource->config['type'], 'ftp');
@@ -91,7 +102,7 @@ class FtpSourceTest extends CakeTestCase {
 		// FTP FAILED CONNECT
 		$this->FtpSource = $this->getMock('FtpSource', array('_ftp'), array($this->defaultConfig));
 		$callback = create_function('$method,$params', <<<END
-			if (\$method == "ftp_connect") {
+			if (\$method  === "ftp_connect") {
 				return false;
 			}
 			return true;
@@ -109,7 +120,7 @@ END
 		// FTP FAILED LOGIN
 		$this->FtpSource = $this->getMock('FtpSource', array('_ftp'), array($this->defaultConfig));
 		$callback = create_function('$method,$params', <<<END
-			if (\$method == "ftp_login") {
+			if (\$method === "ftp_login") {
 				return false;
 			}
 			return true;
@@ -136,16 +147,48 @@ END
 	}
 
 /**
+ * testConnectSsh
+ */
+	public function testConnectSsh() {
+		$this->skipIf(true, 'FIXME: Non-composered vendor of phpseclib not found in travis, locally it\'s fine.');
+
+		$config = array('type' => 'ssh') + $this->defaultConfig;
+		$this->FtpSource = $this->getMock('FtpSource', array('_getFtp'), array($config));
+		$data = array('cache' => true);
+		$this->assertTrue($this->FtpSource->init($data));
+		$this->assertEqual($this->FtpSource->config['type'], 'ssh');
+		$this->assertEqual($this->FtpSource->config['cache'], 'cakeftp');
+
+		$this->assertTrue($this->FtpSource->init(array(
+			'host' => 'https://localhost',
+		)));
+		$this->assertEquals('localhost', $this->FtpSource->config['host']);
+
+		$Ftp = $this->getMock('Net_SFTP', array(), array('https://localhost', 21));
+		$this->FtpSource->expects($this->once())
+			->method('_getFtp')
+			->with('localhost', 21)
+			->will($this->returnValue($Ftp));
+		$Ftp->expects($this->once())
+			->method('login')
+			->with('testuser', 1234)
+			->will($this->returnValue(true));
+
+		$result = $this->FtpSource->connect();
+		$this->assertTrue($result);
+	}
+
+/**
  * testRead
  */
 	public function testRead() {
 		$Model = new FtpSourceTestModel();
 		$this->FtpSource = $this->getMock('FtpSource', array('_ftp'), array($this->defaultConfig));
 		$callback = create_function('$method,$params', <<<END
-			if (\$method == 'ftp_pwd') {
+			if (\$method  === 'ftp_pwd') {
 				return '/path/to/remote/folder/';
 			}
-			if (\$method == 'ftp_rawlist') {
+			if (\$method  === 'ftp_rawlist') {
 				return array(
 					"drwxr-x---   3 kyle  group      4096 Jul 12 12:16 public_ftp",
 					"drwxr-x---  15 kyle  group      4096 Nov  3 21:31 public_html",
@@ -192,10 +235,10 @@ END
 		$Model = new FtpSourceTestModel();
 		$this->FtpSource = $this->getMock('FtpSource', array('_ftp'), array($this->defaultConfig));
 		$callback = create_function('$method,$params', <<<END
-			if (\$method == 'ftp_put') {
+			if (\$method  === 'ftp_put') {
 				return false;
 			}
-			if (\$method == 'ftp_get') {
+			if (\$method  === 'ftp_get') {
 				return false;
 			}
 			return true;
@@ -235,10 +278,10 @@ END
 		$Model = new FtpSourceTestModel();
 		$this->FtpSource = $this->getMock('FtpSource', array('_ftp'), array($this->defaultConfig));
 		$callback = create_function('$method,$params', <<<END
-			if (\$method == 'ftp_delete') {
+			if (\$method  === 'ftp_delete') {
 				return true;
 			}
-			if (\$method == 'ftp_connect' || \$method == 'ftp_login') {
+			if (\$method  === 'ftp_connect' || \$method  === 'ftp_login') {
 				return true;
 			}
 			return false;

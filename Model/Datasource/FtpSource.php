@@ -88,7 +88,7 @@ class FtpSource extends DataSource {
 		if (!empty($config['type'])) {
 			$config['type'] = strtolower($config['type']);
 		}
-		$this->config = array_merge($this->config, (array)$config);
+		$this->config = $config + $this->config;
 		if ($this->config['cache'] === true) {
 			Cache::config('cakeftp', array('engine' => 'File', 'prefix' => 'cakeftp_'));
 			$this->config['cache'] = 'cakeftp';
@@ -213,7 +213,7 @@ class FtpSource extends DataSource {
 		}
 		$data['direction'] = (!empty($data['direction'])) ? strtolower($data['direction']) : 'up';
 		$model->id = dirname($data['remote']);
-		if ($this->config['type'] == "ftp") {
+		if ($this->config['type'] === "ftp") {
 			if (!$this->_ftp('ftp_chdir', array($this->config['connection'], $model->id))) {
 				throw new Exception(__d('cakeftp', 'Could not change directory'));
 			}
@@ -235,7 +235,7 @@ class FtpSource extends DataSource {
 					$this->_ftp('unlink', array($data['local']));
 					throw new Exception(__d('cakeftp', 'Failed to download'));
 			}
-		} elseif ($this->config['type'] == "ssh") {
+		} elseif ($this->config['type'] === "ssh") {
 			$this->config['connection']->chdir($model->id);
 			switch ($data['direction']) {
 				case 'up':
@@ -291,11 +291,11 @@ class FtpSource extends DataSource {
 		if (!$this->connect()) {
 			throw new Exception(__d('cakeftp', 'Failed to connect'));
 		}
-		if ($this->config['type'] == "ftp") {
+		if ($this->config['type'] === "ftp") {
 			if ($this->_ftp('ftp_delete', array($this->config['connection'], $file))) {
 				return true;
 			}
-		} elseif ($this->config['type'] == "ssh") {
+		} elseif ($this->config['type'] === "ssh") {
 			if ($this->config['connection']->delete($file)) {
 				return true;
 			}
@@ -313,13 +313,13 @@ class FtpSource extends DataSource {
  * @throws Exception
  */
 	public function query($query = null, $data = null) {
-		if (strtolower($query) == 'connect') {
+		if (strtolower($query) === 'connect') {
 			return $this->connect(current($data));
 		}
-		if (strtolower($query) == 'connection') {
+		if (strtolower($query) === 'connection') {
 			return $this->config;
 		}
-		if (strtolower($query) == 'console') {
+		if (strtolower($query) === 'console') {
 			return $this->console(current($data));
 		}
 		throw new Exception(__d('cakeftp', 'That method is not supported.'));
@@ -392,14 +392,17 @@ class FtpSource extends DataSource {
 				return true;
 
 			case 'ssh':
-				if (strpos(get_include_path(), 'phpseclib') === false) {
-					set_include_path(App::pluginPath('Ftp') . DS . 'Vendor' . DS . 'phpseclib' . DS . 'phpseclib' . DS . PATH_SEPARATOR . get_include_path());
-					if (!App::import('Vendor', 'Ftp.Net_SFTP', array('file' => 'phpseclib' . DS . 'phpseclib' . DS . 'Net' . DS . 'SFTP.php'))) {
-						throw new Exception(__d('cakeftp', 'Please upload the contents of the phpseclib (https://github.com/phpseclib/phpseclib) to the app/Plugin/Ftp/Vendor/phpseclib/ folder'));
+				// Deprecated way of not using composer, but a ROOT/vendors/phpseclib/ one (downloaded version).
+				if (!class_exists('Net_SFTP') && strpos(get_include_path(), 'phpseclib') === false) {
+					if (!App::import('Vendor', 'Net_SFTP', array('file' => 'phpseclib' . DS . 'phpseclib' . DS . 'Net' . DS . 'SFTP.php'))) {
+						throw new Exception(__d('cakeftp', 'Please upload the contents of the phpseclib (https://github.com/phpseclib/phpseclib) to the ROOT/vendors/phpseclib/ folder'));
 					}
 				}
+				if (!class_exists('Net_SFTP')) {
+					throw new Exception(__d('cakeftp', 'Please make sure phpseclib (https://github.com/phpseclib/phpseclib) is a loaded composer dependency.'));
+				}
 				$port = !empty($this->config['port']) ? $this->config['port'] : 22;
-				$this->config['connection'] = new Net_SFTP($this->config['host'], $port);
+				$this->config['connection'] = $this->_getFtp($this->config['host'], $port);
 				if (!$this->config['connection']->login($this->config['username'], $this->config['password'])) {
 					unset($this->config['connection']);
 					throw new Exception(__d('cakeftp', 'Login failed'));
@@ -408,6 +411,19 @@ class FtpSource extends DataSource {
 				return true;
 		}
 		return false;
+	}
+
+	/**
+	 * FtpSource::_getFtp()
+	 *
+	 * Allows mocking of the ssh ftp class.
+	 *
+	 * @param string $host
+	 * @param int $port
+	 * @return Net_SFTP Instance
+	 */
+	protected function _getFtp($host, $port = 22) {
+		return new Net_SFTP();
 	}
 
 /**
@@ -439,7 +455,7 @@ class FtpSource extends DataSource {
  */
 	public function quit() {
 		if (isset($this->config['connection']) && $this->config['connection']) {
-			if ($this->config['type'] == "ftp") {
+			if ($this->config['type'] === "ftp") {
 				$this->_ftp('ftp_close', array($this->config['connection']));
 			}
 			$this->config['connection'] = null;
@@ -499,7 +515,7 @@ class FtpSource extends DataSource {
 			if (empty($line)) {
 				continue;
 			}
-			if (substr($line, -1) == ':') {
+			if (substr($line, -1) === ':') {
 				$thisPath = substr($line, strlen($path), -1);
 				continue;
 			}
