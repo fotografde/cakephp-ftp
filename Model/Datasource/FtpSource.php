@@ -423,7 +423,7 @@ class FtpSource extends DataSource {
 	 * @return Net_SFTP Instance
 	 */
 	protected function _getFtp($host, $port = 22) {
-		return new Net_SFTP();
+		return new Net_SFTP($host, $port);
 	}
 
 /**
@@ -480,7 +480,6 @@ class FtpSource extends DataSource {
 				'filename'	=> $file,
 				'is_dir'	=> ($data['type'] === NET_SFTP_TYPE_DIRECTORY),
 				'is_link'	=> ($data['type'] === NET_SFTP_TYPE_SYMLINK),
-				'size'		=> $data['size'],
 				'chmod'		=> decoct($data['permissions']),
 				'mtime'		=> date('Y-m-d H:i:s', strtotime($data['mtime'])),
 				'raw'		=> $data,
