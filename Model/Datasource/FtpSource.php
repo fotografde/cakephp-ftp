@@ -147,7 +147,7 @@ class FtpSource extends DataSource {
 						throw new Exception(__d('cakeftp', 'Folder does not exist'));
 					}
 					$path = $this->_ftp('ftp_pwd', array($this->config['connection']));
-					$raw = $this->_ftp('ftp_rawlist', array($this->config['connection'], "-A .", $recursive));
+					$raw = $this->_ftp('ftp_rawlist', array($this->config['connection'], ".", $recursive));
 					if (method_exists($model, 'parseFtpResults')) {
 						$out = $model->parseFtpResults($raw, $path, $this->config);
 					} else {
